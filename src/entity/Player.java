@@ -103,13 +103,21 @@ public class Player extends Entity {
                     hasKey++;
                     gp.obj[index] = null;
                     System.out.println("Key: "+hasKey);
+                    gp.playMusicOneTime(1);
                     break;
                 case "Door":
                     if(hasKey > 0){
+                        gp.playMusicOneTime(3);
                         gp.obj[index] = null;
                         hasKey--;
                     }
+
                     break;
+                case "Boots":
+                    gp.playMusicOneTime(2);
+                    speed +=2;
+                    gp.obj[index] = null;
+
             }
 
         }
