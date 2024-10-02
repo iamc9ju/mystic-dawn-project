@@ -51,7 +51,7 @@ public class Player extends Entity {
         left1 = setUp("john_left_1");
         left2 = setUp("john_left_2");
         right1 = setUp("john_right_1");
-        right2 = setUp("john_right_1");
+        right2 = setUp("john_right_2");
 
 
     }
