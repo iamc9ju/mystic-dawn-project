@@ -24,7 +24,7 @@ public class UI {
     public UI(GamePanel gp){
         this.gp = gp;
         arial_40 = new Font("Arial",Font.PLAIN,40);
-        OBJ_Key key = new OBJ_Key();
+        OBJ_Key key = new OBJ_Key(gp);
         keyImage = key.image;
         arial_80B = new Font("Arial",Font.BOLD,80);
     }
@@ -78,8 +78,8 @@ public class UI {
             g2.drawString("x "+ gp.player.hasKey,74,65);
 
             //TIME
-            playTime += (double)1/60;
-            g2.drawString("Time: "+decimalFormat.format(playTime),gp.tileSize*11,65);
+//            playTime += (double)1/60;
+//            g2.drawString("Time: "+decimalFormat.format(playTime),gp.tileSize*11,65);
             //MESSAGE
             if(messageOn == true){
 

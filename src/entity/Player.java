@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
+import main.UtilityTool;
 
 public class Player extends Entity {
     GamePanel gp;
@@ -43,21 +44,31 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
+        up1 = setUp("john_up_1");
+        up2 = setUp("john_up_2");
+        down1 = setUp("john_down_1");
+        down2  = setUp("john_down_2");
+        left1 = setUp("john_left_1");
+        left2 = setUp("john_left_2");
+        right1 = setUp("john_right_1");
+        right2 = setUp("john_right_1");
+
+
+    }
+
+    public BufferedImage setUp(String imageName) {
+
+        UtilityTool utilityTool = new UtilityTool();
+        BufferedImage image = null;
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/john_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/john_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/john_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/john_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/john_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/john_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/john_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/john_right_2.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
+            image = utilityTool.scaleImage(image, gp.tileSize, gp.tileSize);
         } catch (IOException e) {
-            System.err.println("Error loading player images: " + e.getMessage());
             e.printStackTrace();
         } catch (NullPointerException npe) {
             System.err.println("Image not found. Check resource path!");
         }
+        return image;
     }
 
     public void update() {
@@ -169,7 +180,7 @@ public class Player extends Entity {
                 break;
         }
         if (image != null) {
-            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(image, screenX, screenY, null);
             g2.setColor(Color.red);
             g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
 
