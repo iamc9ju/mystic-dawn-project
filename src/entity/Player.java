@@ -10,18 +10,17 @@ import main.GamePanel;
 import main.UtilityTool;
 
 public class Player extends Entity {
-    GamePanel gp;
     KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
-//    public int hasKey = 0;
     int standCounter = 0;
     boolean moving = false;
     int pixelCounter = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+        super(gp);
+
         this.keyH = keyH;
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
@@ -44,31 +43,14 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
-        up1 = setUp("john_up_1");
-        up2 = setUp("john_up_2");
-        down1 = setUp("john_down_1");
-        down2  = setUp("john_down_2");
-        left1 = setUp("john_left_1");
-        left2 = setUp("john_left_2");
-        right1 = setUp("john_right_1");
-        right2 = setUp("john_right_2");
-
-
-    }
-
-    public BufferedImage setUp(String imageName) {
-
-        UtilityTool utilityTool = new UtilityTool();
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
-            image = utilityTool.scaleImage(image, gp.tileSize, gp.tileSize);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException npe) {
-            System.err.println("Image not found. Check resource path!");
-        }
-        return image;
+        up1 = setUp("/player/john_up_1");
+        up2 = setUp("/player/john_up_2");
+        down1 = setUp("/player/john_down_1");
+        down2  = setUp("/player/john_down_2");
+        left1 = setUp("/player/john_left_1");
+        left2 = setUp("/player/john_left_2");
+        right1 = setUp("/player/john_right_1");
+        right2 = setUp("/player/john_right_2");
     }
 
     public void update() {
@@ -95,6 +77,10 @@ public class Player extends Entity {
                 //CHECK OBJECT COLLISION
                 int objIndex = gp.collisionChecker.checkObject(this, true);
                 pickUpObject(objIndex);
+
+                //CHECK NPC COLLISION
+                int npcIndex = gp.collisionChecker.checkEntity(this,gp.npc);
+                interactNPC(npcIndex);
             }else{
                 standCounter++;
                 if(standCounter == 20){
@@ -105,7 +91,7 @@ public class Player extends Entity {
         }
         if(moving == true){
             // if collision is false, player can move
-            if(!collisionOn) {
+            if(collisionOn == false) {
                 switch(direction) {
                     case "up": worldY -= speed; break;
                     case "down": worldY += speed; break;
@@ -129,6 +115,12 @@ public class Player extends Entity {
     public  void pickUpObject(int index){
         if(index != 999) {
 
+        }
+    }
+
+    public void interactNPC(int i){
+        if(i!= 999){
+            System.out.println("Hit Npc ! ");
         }
     }
 
