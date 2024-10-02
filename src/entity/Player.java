@@ -1,8 +1,8 @@
 package entity;
 
 import main.KeyHandler;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -15,6 +15,9 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
     public int hasKey = 0;
+    int standCounter = 0;
+    boolean moving = false;
+    int pixelCounter = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -22,7 +25,7 @@ public class Player extends Entity {
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
-        solidArea = new Rectangle(8,16,32,32);
+        solidArea = new Rectangle(1,1,46,46);
 
         solidAreaDefaultX = solidArea.x;  //เก็บค่าเริ่มต้นของตำแหน่งพื้นที่ชน เพื่อใช้ในภายหลังหากจำเป็น
         solidAreaDefaultY = solidArea.y;
@@ -58,26 +61,38 @@ public class Player extends Entity {
     }
 
     public void update() {
-        // Check if any key is pressed
-        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-            if (keyH.upPressed) {
-                direction = "up";
-            } else if (keyH.downPressed) {
-                direction = "down";
-            } else if (keyH.leftPressed) {
-                direction = "left";
-            } else if (keyH.rightPressed) {
-                direction = "right";
+
+        if(moving == false){
+            // Check if any key is pressed
+            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+                if (keyH.upPressed) {
+                    direction = "up";
+                } else if (keyH.downPressed) {
+                    direction = "down";
+                } else if (keyH.leftPressed) {
+                    direction = "left";
+                } else if (keyH.rightPressed) {
+                    direction = "right";
+                }
+
+                moving = true;
+
+                // check tile collision
+                collisionOn = false;
+                gp.collisionChecker.checkTile(this);
+
+                //CHECK OBJECT COLLISION
+                int objIndex = gp.collisionChecker.checkObject(this, true);
+                pickUpObject(objIndex);
+            }else{
+                standCounter++;
+                if(standCounter == 20){
+                    spriteNum = 1;
+                    standCounter = 0;
+                }
             }
-
-            // check tile collision
-            collisionOn = false;
-            gp.collisionChecker.checkTile(this);
-
-            //CHECK OBJECT COLLISION
-            int objIndex = gp.collisionChecker.checkObject(this,true);
-            pickUpObject(objIndex);
-
+        }
+        if(moving == true){
             // if collision is false, player can move
             if(!collisionOn) {
                 switch(direction) {
@@ -91,6 +106,11 @@ public class Player extends Entity {
             if (spriteCounter > 10) {
                 spriteNum = (spriteNum == 1) ? 2 : 1;
                 spriteCounter = 0;
+            }
+            pixelCounter += speed;
+            if(pixelCounter == 48){
+                moving = false;
+                pixelCounter = 0;
             }
         }
     }
@@ -150,6 +170,9 @@ public class Player extends Entity {
         }
         if (image != null) {
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            g2.setColor(Color.red);
+            g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
+
         } else {
             System.err.println("Image is null for direction: " + direction);
         }
