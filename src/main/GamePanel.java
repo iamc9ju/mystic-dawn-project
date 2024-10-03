@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     //SYSTEM
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler(this);
+    public KeyHandler keyH = new KeyHandler(this);
     Sound music = new Sound();
     Sound soundEffect = new Sound();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
@@ -45,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable{
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int dialogueState = 3;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -70,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable{
                 double nextDrawTime = System.nanoTime() +  drawInterval;
                 while(gameThread != null) {
 
-                    // 1 UPDATE update information such as character position;
+                    // 1 update information such as character position;
                     update();
                     // 2 DRAW draw the screen with the updated information
                     repaint();
