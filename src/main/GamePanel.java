@@ -4,7 +4,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.*;
+
+import entity.Entity;
 import entity.Player;
+import objects.SuperObject;
 import tile.TileManager;
 public class GamePanel extends JPanel implements Runnable{
     //SCREEN settings
@@ -20,16 +23,29 @@ public class GamePanel extends JPanel implements Runnable{
     //WORLD PARAMETERS
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldRow;
 
     int FPS = 60;
 
+    //SYSTEM
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
+    public KeyHandler keyH = new KeyHandler(this);
+    Sound music = new Sound();
+    Sound soundEffect = new Sound();
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
+    public UI ui = new UI(this);
+    public AssetSetter assetSetter = new AssetSetter(this);
     Thread gameThread;
-    public CollisionChecker cChecker = new CollisionChecker(this);
+
+    //ENTITY AND OBJECT
     public Player player = new Player(this,keyH);
+    public SuperObject obj[] = new SuperObject[10];
+    public Entity npc[] = new Entity[10];
+
+    //GAME STATE
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
+    public final int dialogueState = 3;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -37,6 +53,14 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+
+    public void setupGame(){
+        assetSetter.setObject();
+        assetSetter.setNPC();
+        playMusic(0);
+        stopMusic();
+        gameState = playState;
     }
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -47,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable{
                 double nextDrawTime = System.nanoTime() +  drawInterval;
                 while(gameThread != null) {
 
-                    // 1 UPDATE update information such as character position;
+                    // 1 update information such as character position;
                     update();
                     // 2 DRAW draw the screen with the updated information
                     repaint();
@@ -96,14 +120,78 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
     public void update() {
-        player.update();
+
+        if(gameState == playState){
+            player.update();
+
+            for(int i=0;i<npc.length;i++){
+                if(npc[i] != null){
+                    npc[i].update();
+                }
+            }
+        }
+        if(gameState == pauseState){
+            //nothing
+        }
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        //DEBUG
+        long drawStart = 0;
+        if(keyH.checkDrawTime == true){
+            drawStart = System.nanoTime();
+        }
+
+
+
         Graphics2D g2 = (Graphics2D)g; // has a bit more function
+
+        //TILE
         tileM.draw(g2);//called draw inside tileManagher
+        //OBJECT
+        for (int i = 0; i< obj.length;i++){
+            if(obj[i] != null){
+                obj[i].draw(g2,this);
+            }
+        }
+//        NPC
+        for(int i = 0 ; i < npc.length;i++){
+            if(npc[i] != null){
+                npc[i].draw(g2);
+            }
+        }
+
+        //PLAYER
         player.draw(g2);
+
+        //UI
+        ui.draw(g2);
+
+        //DEBUG
+        if(keyH.checkDrawTime == true){
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd -drawStart;
+            g2.setColor(Color.white);
+            g2.drawString("Draw Time: " + passed ,10,400);
+            System.out.println("Draw Time : "+passed);
+        }
         g2.dispose(); //save some memory
+
+    }
+
+    public void playMusic(int index){
+        music.setFile(index);
+        music.play();
+        music.loop();
+    }
+
+    public void stopMusic(){
+        music.stop();
+    }
+
+    public void playSoundEffect(int index){
+        soundEffect.setFile(index);
+        soundEffect.play();
     }
 }

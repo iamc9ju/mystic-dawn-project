@@ -5,7 +5,16 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener{
 
-    public boolean upPressed,downPressed,leftPressed,rightPressed;
+    GamePanel gp;
+
+
+    public boolean upPressed,downPressed,leftPressed,rightPressed,enterPressed;
+    //DEBUG
+    boolean checkDrawTime;
+
+    public KeyHandler(GamePanel gp){
+        this.gp = gp;
+    }
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
 
@@ -14,18 +23,51 @@ public class KeyHandler implements KeyListener{
     public void keyPressed(KeyEvent e) {
         // TODO Auto-generated method stub
         int code = e.getKeyCode(); //return integer keyCode with the key in this event
-        if(code == KeyEvent.VK_W) {
-            upPressed = true;
+
+        //PLAY STATE
+        if(gp.gameState == gp.playState){
+            if(code == KeyEvent.VK_W) {
+                upPressed = true;
+            }
+            if(code == KeyEvent.VK_S) {
+                downPressed = true;
+            }
+            if(code == KeyEvent.VK_A) {
+                leftPressed = true;
+            }
+            if(code == KeyEvent.VK_D) {
+                rightPressed = true;
+            }
+            if(code == KeyEvent.VK_P) {
+                gp.gameState = gp.pauseState;
+            }
+            if(code == KeyEvent.VK_ENTER) {
+                enterPressed = true;
+            }
+
+            //DEBUG
+            if(code == KeyEvent.VK_T){
+                if(checkDrawTime == false){
+                    checkDrawTime = true;
+                }else if(checkDrawTime == true){
+                    checkDrawTime = false;
+                }
+            }
         }
-        if(code == KeyEvent.VK_S) {
-            downPressed = true;
+        //PAUSE STATE
+        else if(gp.gameState == gp.pauseState){
+            if(code == KeyEvent.VK_P) {
+                gp.gameState = gp.playState;
+            }
         }
-        if(code == KeyEvent.VK_A) {
-            leftPressed = true;
+
+        //DIALOGUE STATE
+        else if(gp.gameState == gp.dialogueState){
+            if(code == KeyEvent.VK_ENTER){
+                gp.gameState = gp.playState;
+            }
         }
-        if(code == KeyEvent.VK_D) {
-            rightPressed = true;
-        }
+
 
     }
 

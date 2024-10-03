@@ -1,31 +1,35 @@
 package entity;
 
 import main.KeyHandler;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
+import main.UtilityTool;
 
 public class Player extends Entity {
-    GamePanel gp;
     KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
+    int standCounter = 0;
+    boolean moving = false;
+    int pixelCounter = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+        super(gp);
+
         this.keyH = keyH;
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
-        solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
-        solidArea.width = 32;
-        solidArea.height = 32;
+        solidArea = new Rectangle(1,1,46,46);
+
+        solidAreaDefaultX = solidArea.x;  //เก็บค่าเริ่มต้นของตำแหน่งพื้นที่ชน เพื่อใช้ในภายหลังหากจำเป็น
+        solidAreaDefaultY = solidArea.y;
+
 
         setDefaultValues();
         getPlayerImage();
@@ -39,40 +43,55 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
-        try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_2.png"));
-        } catch (IOException e) {
-            System.err.println("Error loading player images: " + e.getMessage());
-            e.printStackTrace();
-        } catch (NullPointerException npe) {
-            System.err.println("Image not found. Check resource path!");
-        }
+        up1 = setUp("/player/john_up_1");
+        up2 = setUp("/player/john_up_2");
+        down1 = setUp("/player/john_down_1");
+        down2  = setUp("/player/john_down_2");
+        left1 = setUp("/player/john_left_1");
+        left2 = setUp("/player/john_left_2");
+        right1 = setUp("/player/john_right_1");
+        right2 = setUp("/player/john_right_2");
     }
 
     public void update() {
-        // Check if any key is pressed
-        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-            if (keyH.upPressed) {
-                direction = "up";
-            } else if (keyH.downPressed) {
-                direction = "down";
-            } else if (keyH.leftPressed) {
-                direction = "left";
-            } else if (keyH.rightPressed) {
-                direction = "right";
+
+        if(moving == false){
+            // Check if any key is pressed
+            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+                if (keyH.upPressed) {
+                    direction = "up";
+                } else if (keyH.downPressed) {
+                    direction = "down";
+                } else if (keyH.leftPressed) {
+                    direction = "left";
+                } else if (keyH.rightPressed) {
+                    direction = "right";
+                }
+
+                moving = true;
+
+                // check tile collision
+                collisionOn = false;
+                gp.collisionChecker.checkTile(this);
+
+                //CHECK OBJECT COLLISION
+                int objIndex = gp.collisionChecker.checkObject(this, true);
+                pickUpObject(objIndex);
+
+                //CHECK NPC COLLISION
+                int npcIndex = gp.collisionChecker.checkEntity(this,gp.npc);
+                interactNPC(npcIndex);
+            }else{
+                standCounter++;
+                if(standCounter == 20){
+                    spriteNum = 1;
+                    standCounter = 0;
+                }
             }
-            // check tile collision
-            collisionOn = false;
-            gp.cChecker.checkTile(this);
+        }
+        if(moving == true){
             // if collision is false, player can move
-            if(!collisionOn) {
+            if(collisionOn == false) {
                 switch(direction) {
                     case "up": worldY -= speed; break;
                     case "down": worldY += speed; break;
@@ -85,7 +104,28 @@ public class Player extends Entity {
                 spriteNum = (spriteNum == 1) ? 2 : 1;
                 spriteCounter = 0;
             }
+            pixelCounter += speed;
+            if(pixelCounter == 48){
+                moving = false;
+                pixelCounter = 0;
+            }
         }
+    }
+
+    public  void pickUpObject(int index){
+        if(index != 999) {
+
+        }
+    }
+
+    public void interactNPC(int i){
+        if(i!= 999){
+            if(keyH.enterPressed == true){
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
+            }
+        }
+        gp.keyH.enterPressed = false;
     }
 
     public void draw(Graphics2D g2) {
@@ -105,7 +145,10 @@ public class Player extends Entity {
                 break;
         }
         if (image != null) {
-            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(image, screenX, screenY, null);
+            g2.setColor(Color.red);
+            g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
+
         } else {
             System.err.println("Image is null for direction: " + direction);
         }
