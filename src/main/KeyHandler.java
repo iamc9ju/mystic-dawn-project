@@ -23,9 +23,9 @@ public class KeyHandler implements KeyListener{
     public void keyPressed(KeyEvent e) {
         // TODO Auto-generated method stub
         int code = e.getKeyCode(); //return integer keyCode with the key in this event
-
         //TITLE
         if(gp.gameState == gp.titleState){
+
             if(gp.ui.titleScreenState == 0){
                 if(code == KeyEvent.VK_W){
                     gp.ui.commandNum--;
