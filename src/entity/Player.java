@@ -155,7 +155,7 @@ public class Player extends Entity {
         if (image != null) {
             g2.drawImage(image, screenX, screenY, null);
             g2.setColor(Color.red);
-            g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
+//            g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
 
         } else {
             System.err.println("Image is null for direction: " + direction);
