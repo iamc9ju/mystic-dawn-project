@@ -85,6 +85,11 @@ public class Player extends Entity {
                 //CHECK NPC COLLISION
                 int npcIndex = gp.collisionChecker.checkEntity(this,gp.npc);
                 interactNPC(npcIndex);
+
+                //CHECK EVENT
+                gp.eventHandler.checkEvent();
+
+                gp.keyH.enterPressed = false;
             }else{
                 standCounter++;
                 if(standCounter == 20){
@@ -129,7 +134,6 @@ public class Player extends Entity {
                 gp.npc[i].speak();
             }
         }
-        gp.keyH.enterPressed = false;
     }
 
     public void draw(Graphics2D g2) {
