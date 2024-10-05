@@ -3,11 +3,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.swing.*;
 
 import entity.Entity;
 import entity.Player;
-import objects.SuperObject;
 import tile.TileManager;
 public class GamePanel extends JPanel implements Runnable{
     //SCREEN settings
@@ -33,16 +35,19 @@ public class GamePanel extends JPanel implements Runnable{
     Sound soundEffect = new Sound();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public UI ui = new UI(this);
+    public EventHandler eventHandler = new EventHandler(this);
     public AssetSetter assetSetter = new AssetSetter(this);
     Thread gameThread;
 
     //ENTITY AND OBJECT
     public Player player = new Player(this,keyH);
-    public SuperObject obj[] = new SuperObject[10];
+    public Entity obj[] = new Entity[10];
     public Entity npc[] = new Entity[10];
+    ArrayList<Entity> entityList = new ArrayList<>();
 
     //GAME STATE
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
@@ -58,9 +63,9 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame(){
         assetSetter.setObject();
         assetSetter.setNPC();
-        playMusic(0);
-        stopMusic();
-        gameState = playState;
+//        playMusic(0);
+//        stopMusic();
+        gameState = titleState;
     }
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -136,6 +141,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D)g;
 
         //DEBUG
         long drawStart = 0;
@@ -143,30 +149,47 @@ public class GamePanel extends JPanel implements Runnable{
             drawStart = System.nanoTime();
         }
 
+        //TITLE SCREEN
+        if(gameState == titleState){
+            ui.draw(g2);
+        }else{
+        //OTHER SCREEN
 
+            //TILE
+            tileM.draw(g2);//called draw inside tileManagher
 
-        Graphics2D g2 = (Graphics2D)g; // has a bit more function
+            entityList.add(player);
 
-        //TILE
-        tileM.draw(g2);//called draw inside tileManagher
-        //OBJECT
-        for (int i = 0; i< obj.length;i++){
-            if(obj[i] != null){
-                obj[i].draw(g2,this);
+            for (int i = 0; i<npc.length;i++){
+                if (npc[i] != null){
+                    entityList.add(npc[i]);
+                }
             }
-        }
-//        NPC
-        for(int i = 0 ; i < npc.length;i++){
-            if(npc[i] != null){
-                npc[i].draw(g2);
+
+            for (int i = 0; i<obj.length;i++){
+                if (obj[i] != null){
+                    entityList.add(obj[i]);
+                }
             }
+
+            Collections.sort(entityList, new Comparator<Entity>() {
+                @Override
+                public int compare(Entity o1, Entity o2) {
+                    int result = Integer.compare(o1.worldX,o2.worldY);
+                    return 0;
+                }
+            });
+
+            for (int i = 0;i<entityList.size();i++){
+                entityList.get(i).draw(g2);
+            }
+            for (int i = 0;i<entityList.size();i++){
+                entityList.remove(i);
+            }
+
+            //UI
+            ui.draw(g2);
         }
-
-        //PLAYER
-        player.draw(g2);
-
-        //UI
-        ui.draw(g2);
 
         //DEBUG
         if(keyH.checkDrawTime == true){

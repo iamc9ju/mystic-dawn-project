@@ -40,6 +40,10 @@ public class Player extends Entity {
         worldY = gp.tileSize *21;
         speed = 4;
         direction = "down";
+
+        //PLAYER STATUS
+        maxLife = 6;
+        life = maxLife;
     }
 
     public void getPlayerImage() {
@@ -81,6 +85,11 @@ public class Player extends Entity {
                 //CHECK NPC COLLISION
                 int npcIndex = gp.collisionChecker.checkEntity(this,gp.npc);
                 interactNPC(npcIndex);
+
+                //CHECK EVENT
+                gp.eventHandler.checkEvent();
+
+                gp.keyH.enterPressed = false;
             }else{
                 standCounter++;
                 if(standCounter == 20){
@@ -125,7 +134,6 @@ public class Player extends Entity {
                 gp.npc[i].speak();
             }
         }
-        gp.keyH.enterPressed = false;
     }
 
     public void draw(Graphics2D g2) {
@@ -147,7 +155,7 @@ public class Player extends Entity {
         if (image != null) {
             g2.drawImage(image, screenX, screenY, null);
             g2.setColor(Color.red);
-            g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
+            //g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
 
         } else {
             System.err.println("Image is null for direction: " + direction);

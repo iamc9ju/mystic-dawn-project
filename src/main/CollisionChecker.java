@@ -165,8 +165,9 @@ public class CollisionChecker {
                         if(entity.solidArea.intersects(target[i].solidArea)){
                                 entity.collisionOn = true;
                                 index = i;
+                            break;
                         }
-                        break;
+
                 }
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
@@ -211,8 +212,9 @@ public class CollisionChecker {
                 entity.solidArea.x += entity.speed;
                 if(entity.solidArea.intersects(gp.player.solidArea)){
                     entity.collisionOn = true;
+                    break;
                 }
-                break;
+
         }
         entity.solidArea.x = entity.solidAreaDefaultX;
         entity.solidArea.y = entity.solidAreaDefaultY;

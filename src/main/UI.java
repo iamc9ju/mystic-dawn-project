@@ -1,12 +1,12 @@
 package main;
 
-import objects.OBJ_Key;
+import entity.Entity;
+import objects.OBJ_Heart;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
 
 
 public class UI {
@@ -14,11 +14,14 @@ public class UI {
     GamePanel gp;
     Graphics2D g2;
     Font maruMonica;
+    BufferedImage heart_full,heart_half,heart_blank;
     public boolean messageOn = false;
     public String message = "";
     int messageCounter = 0;
     public boolean gameFinished = false;
     public String currentDialogue = "";
+    public int commandNum = 0;
+    public int titleScreenState = 0;
 
 
     public UI(GamePanel gp){
@@ -29,6 +32,12 @@ public class UI {
         }catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
+
+        //CREATE HUD OBJECT
+        Entity heart = new OBJ_Heart(gp);
+        heart_full = heart.image;
+        heart_half = heart.image3;
+        heart_blank = heart.image2;
     }
 
     public void showMessage(String text){
@@ -44,22 +53,165 @@ public class UI {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON); //ข้อความจะดูเนียนและคมชัดขึ้น
         g2.setColor(Color.white);
 
+        //TITLE STATE
+        if(gp.gameState == gp.titleState){
+             drawTitleScreen();
+        }
+
         //PLAY STATE
         if(gp.gameState == gp.playState){
-            //Do playState stuff later
+            drawPlayerLife();
         }
 
         //PAUSE STATE
         if(gp.gameState == gp.pauseState){
+            drawPlayerLife();
             drawPauseScreen();
+
         }
 
         //DIALOGUE STATE
         if(gp.gameState == gp.dialogueState){
+            drawPlayerLife();
             drawDialogueScreen();
+
         }
     }
 
+    public void drawPlayerLife(){
+        int x = gp.tileSize/2;
+        int y = gp.tileSize/2;
+
+        int i = 0;
+
+        //DRAW MAX LIFE
+        while(i < gp.player.maxLife/2){
+            g2.drawImage(heart_blank,x,y,null);
+            i++;
+            x += gp.tileSize;
+            //วาดภาพหัวใจโล่งๆ
+        }
+
+        //RESET
+        x = gp.tileSize/2;
+        y = gp.tileSize/2;
+        i = 0;
+
+        //DRAW CURRENT LIFE
+        while(i < gp.player.life){
+            g2.drawImage(heart_half,x,y,null);
+            i++;
+            if(i < gp.player.life){
+                g2.drawImage(heart_full,x,y,null);
+            }
+            i++;
+            x += gp.tileSize;
+        }
+
+    }
+    public void drawTitleScreen(){
+
+        if(titleScreenState == 0){
+            g2.setColor(new Color(0,0,0));
+            g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
+
+            //TITLE NAME
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD,88F));
+            String text = "John Snow Adventure";
+            int x = getXforCenteredText(text);
+            int y = gp.tileSize * 3;
+
+            //SHADOW
+            g2.setColor(Color.gray);
+            g2.drawString(text,x+5,y+5);
+
+            //MAIN COLOR
+            g2.setColor(Color.white);
+            g2.drawString(text,x,y);
+
+            //JOHN SNOW IMAGE
+            x = gp.screenWidth/2 - (gp.tileSize*2)/2;
+            y += gp.tileSize*2;
+            g2.drawImage(gp.player.down1,x,y,gp.tileSize*2,gp.tileSize*2,null);
+
+            //MENU
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD,48F));
+
+            text = "NEW GAME";
+            x = getXforCenteredText(text);
+            y += gp.tileSize*4;
+            g2.drawString(text,x,y);
+            if(commandNum == 0){
+                g2.drawString(">",x-gp.tileSize,y);
+            }
+
+            text = "LOAD GAME";
+            x = getXforCenteredText(text);
+            y += gp.tileSize;
+            g2.drawString(text,x,y);
+            if(commandNum == 1){
+                g2.drawString(">",x-gp.tileSize,y);
+            }
+
+            text = "QUIT";
+            x = getXforCenteredText(text);
+            y += gp.tileSize;
+            g2.drawString(text,x,y);
+            if(commandNum == 2){
+                g2.drawString(">",x-gp.tileSize,y);
+            }
+        }else if(titleScreenState == 1){
+
+            //CLASS SELECTION SCREEN
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(42F));
+
+            String text = "Select your class!";
+            int x = getXforCenteredText(text);
+            int y = gp.tileSize*3;
+            g2.drawString(text,x,y);
+
+            text = "Fighter";
+            x = getXforCenteredText(text);
+            y += gp.tileSize*3;
+            g2.drawString(text,x,y);
+            if(commandNum == 0){
+                g2.drawString(">",x-gp.tileSize, y);
+            }
+
+            text = "Thief";
+            x = getXforCenteredText(text);
+            y += gp.tileSize;
+            g2.drawString(text,x,y);
+            if(commandNum == 1){
+                g2.drawString(">",x-gp.tileSize, y);
+            }
+
+            text = "Sorcerer";
+            x = getXforCenteredText(text);
+            y += gp.tileSize;
+            g2.drawString(text,x,y);
+            if(commandNum == 2){
+                g2.drawString(">",x-gp.tileSize, y);
+            }
+
+            text = "Back";
+            x = getXforCenteredText(text);
+            y += gp.tileSize*2;
+            g2.drawString(text,x,y);
+            if(commandNum == 3){
+                g2.drawString(">",x-gp.tileSize, y);
+            }
+
+
+
+
+        }
+
+
+
+
+    }
     public void drawPauseScreen(){
 
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,80));
@@ -69,7 +221,6 @@ public class UI {
 
         g2.drawString(text,x,y);
     }
-
     public void drawDialogueScreen(){
 
         //WINDOW
