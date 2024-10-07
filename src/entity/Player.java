@@ -59,6 +59,7 @@ public class Player extends Entity {
 
     public void update() {
 
+
         if(moving == false){
             // Check if any key is pressed
             if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
@@ -86,6 +87,10 @@ public class Player extends Entity {
                 int npcIndex = gp.collisionChecker.checkEntity(this,gp.npc);
                 interactNPC(npcIndex);
 
+                //CHECK MONSTER COLLISION
+                int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monster);
+                contactMonster(monsterIndex);
+
                 //CHECK EVENT
                 gp.eventHandler.checkEvent();
 
@@ -96,6 +101,13 @@ public class Player extends Entity {
                     spriteNum = 1;
                     standCounter = 0;
                 }
+            }
+        }
+        if (invincible == true){
+            invincibleCounter++;
+            if(invincibleCounter > 60){
+                invincible = false;
+                invincibleCounter = 0;
             }
         }
         if(moving == true){
@@ -127,6 +139,17 @@ public class Player extends Entity {
         }
     }
 
+    public void contactMonster(int index){
+        if(index != 999){
+            if(invincible == false){
+                life -= 1;
+                invincible = true;
+
+            }
+
+        }
+    }
+
     public void interactNPC(int i){
         if(i!= 999){
             if(keyH.enterPressed == true){
@@ -152,13 +175,23 @@ public class Player extends Entity {
                 image = (spriteNum == 1) ? right1 : right2;
                 break;
         }
+
+        if(invincible == true){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f)); //ทำให้ Graphic จากลงเหลือ 30%
+        }
         if (image != null) {
             g2.drawImage(image, screenX, screenY, null);
             g2.setColor(Color.red);
 //            g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
-
         } else {
             System.err.println("Image is null for direction: " + direction);
         }
+
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1F));
+
+
+//        g2.setFont(new Font("Arial",Font.PLAIN,26));
+//        g2.setColor(Color.white);
+//        g2.drawString("Invincible:"+invincibleCounter,10,400);
     }
 }

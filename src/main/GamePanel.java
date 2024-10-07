@@ -36,15 +36,16 @@ public class GamePanel extends JPanel implements Runnable{
     Sound music = new Sound();
     Sound soundEffect = new Sound();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
+    public AssetSetter assetSetter = new AssetSetter(this);
     public UI ui = new UI(this);
     public EventHandler eventHandler = new EventHandler(this);
-    public AssetSetter assetSetter = new AssetSetter(this);
     Thread gameThread;
 
     //ENTITY AND OBJECT
     public Player player = new Player(this,keyH);
     public Entity obj[] = new Entity[10];
     public Entity npc[] = new Entity[10];
+    public Entity monster[] = new Entity[20];
     ArrayList<Entity> entityList = new ArrayList<>();
 
     //GAME STATE
@@ -65,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame(){
         assetSetter.setObject();
         assetSetter.setNPC();
+        assetSetter.setMonster();
 //        playMusic(0);
 //        stopMusic();
         gameState = titleState;
@@ -110,6 +112,11 @@ public class GamePanel extends JPanel implements Runnable{
                     npc[i].update();
                 }
             }
+            for(int i = 0; i < monster.length; i++){
+                if(monster[i] != null){
+                    monster[i].update();
+                }
+            }
         }
         if(gameState == pauseState){
             //nothing
@@ -131,20 +138,23 @@ public class GamePanel extends JPanel implements Runnable{
         }else{
         //OTHER SCREEN
             //TILE
-            tileM.draw(g2);//called draw inside tileManagher
+            tileM.draw(g2);//called draw inside tileManager
 
-            //ADD ENTITY TO THE LIST
+            //เพิ่ม player,npc,object ลง arrayList
             entityList.add(player);
-
             for(int i = 0;i< npc.length;i++){
                 if(npc[i] != null){
                     entityList.add(npc[i]);
                 }
             }
-
             for(int i = 0 ; i< obj.length; i++){
                 if(obj[i] != null){
                     entityList.add(obj[i]);
+                }
+            }
+            for(int i = 0 ; i< monster.length; i++){
+                if(monster[i] != null){
+                    entityList.add(monster[i]);
                 }
             }
 

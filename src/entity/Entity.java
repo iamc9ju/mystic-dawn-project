@@ -23,8 +23,11 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
     public int actionLockCounter = 0;
+    public boolean invincible = false; //ทำให้เป็นอมตะชั่วคราว;
+    public int invincibleCounter = 0;
     String dialogues[] = new String[20];
     int dialogueIndex = 0;
+    public int type; // 0 = player, 1 = npc ,2 = monster
 
     public BufferedImage image,image2,image3;
     public String name;
@@ -36,6 +39,8 @@ public class Entity {
 
     public Entity(GamePanel gp){
         this.gp =gp;
+//        solidAreaDefaultX = solidArea.x;  //เก็บค่าเริ่มต้นของตำแหน่งพื้นที่ชน เพื่อใช้ในภายหลังหากจำเป็น
+//        solidAreaDefaultY = solidArea.y;
     }
 
     public void speak(){
@@ -59,6 +64,8 @@ public class Entity {
                 direction = "left";
                 break;
         }
+//        solidArea.x = solidAreaDefaultX;
+//        solidArea.y = solidAreaDefaultY;
     }
     public void setAction(){
 
@@ -70,7 +77,16 @@ public class Entity {
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkObject(this,false);
-        gp.collisionChecker.checkPlayer(this);
+        gp.collisionChecker.checkEntity(this,gp.npc);
+        gp.collisionChecker.checkEntity(this,gp.monster);
+        boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
+
+        if(this.type == 2 && contactPlayer == true){
+            if(gp.player.invincible == false){
+                gp.player.life -=1;
+                gp.player.invincible = true;
+            }
+        }
 
         // if collision is false, player can move
         if(collisionOn == false) {
