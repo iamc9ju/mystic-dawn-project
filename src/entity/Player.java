@@ -47,22 +47,22 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
-        up1 = setUp("/player/john_up_1");
-        up2 = setUp("/player/john_up_2");
-        down1 = setUp("/player/john_down_1");
-        down2  = setUp("/player/john_down_2");
-        left1 = setUp("/player/john_left_1");
-        left2 = setUp("/player/john_left_2");
-        right1 = setUp("/player/john_right_1");
-        right2 = setUp("/player/john_right_2");
+        up1 = setUp("/player/boy_up_1");
+        up2 = setUp("/player/boy_up_2");
+        down1 = setUp("/player/boy_down_1");
+        down2  = setUp("/player/boy_down_2");
+        left1 = setUp("/player/boy_left_1");
+        left2 = setUp("/player/boy_left_2");
+        right1 = setUp("/player/boy_right_1");
+        right2 = setUp("/player/boy_right_2");
     }
 
     public void update() {
 
 
-        if(moving == false){
+
             // Check if any key is pressed
-            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
                 if (keyH.upPressed) {
                     direction = "up";
                 } else if (keyH.downPressed) {
@@ -73,7 +73,7 @@ public class Player extends Entity {
                     direction = "right";
                 }
 
-                moving = true;
+
 
                 // check tile collision
                 collisionOn = false;
@@ -84,7 +84,7 @@ public class Player extends Entity {
                 pickUpObject(objIndex);
 
                 //CHECK NPC COLLISION
-                int npcIndex = gp.collisionChecker.checkEntity(this,gp.npc);
+                int npcIndex = gp.collisionChecker.checkEntity(this, gp.npc);
                 interactNPC(npcIndex);
 
                 //CHECK MONSTER COLLISION
@@ -94,41 +94,38 @@ public class Player extends Entity {
                 //CHECK EVENT
                 gp.eventHandler.checkEvent();
 
-                gp.keyH.enterPressed = false;
-            }else{
-                standCounter++;
-                if(standCounter == 20){
-                    spriteNum = 1;
-                    standCounter = 0;
+                if(collisionOn == false && keyH.enterPressed == false) {
+                    switch(direction) {
+                        case "up": worldY -= speed; break;
+                        case "down": worldY += speed; break;
+                        case "left": worldX -= speed; break;
+                        case "right": worldX += speed; break;
+                    }
+                }
+                spriteCounter++;
+                if (spriteCounter > 10) {
+                    spriteNum = (spriteNum == 1) ? 2 : 1;
+                    spriteCounter = 0;
                 }
             }
-        }
+
+
+            // if collision is false, player can move
+
+
+            gp.keyH.enterPressed = false;
+
+
+//            pixelCounter += speed;
+//            if(pixelCounter == 48){
+//                moving = false;
+//                pixelCounter = 0;
+//            }
         if (invincible == true){
             invincibleCounter++;
             if(invincibleCounter > 60){
                 invincible = false;
                 invincibleCounter = 0;
-            }
-        }
-        if(moving == true){
-            // if collision is false, player can move
-            if(collisionOn == false) {
-                switch(direction) {
-                    case "up": worldY -= speed; break;
-                    case "down": worldY += speed; break;
-                    case "left": worldX -= speed; break;
-                    case "right": worldX += speed; break;
-                }
-            }
-            spriteCounter++;
-            if (spriteCounter > 10) {
-                spriteNum = (spriteNum == 1) ? 2 : 1;
-                spriteCounter = 0;
-            }
-            pixelCounter += speed;
-            if(pixelCounter == 48){
-                moving = false;
-                pixelCounter = 0;
             }
         }
     }
