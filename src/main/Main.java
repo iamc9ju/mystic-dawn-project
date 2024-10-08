@@ -8,7 +8,6 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("John Snow adventure");
-
         GamePanel gamepanel = new GamePanel();
         window.add(gamepanel);
         window.pack();
