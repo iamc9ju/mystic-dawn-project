@@ -2,6 +2,7 @@ package main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 
 public class KeyHandler implements KeyListener {
 
@@ -39,9 +40,7 @@ public class KeyHandler implements KeyListener {
         //DIALOGUE STATE
         else if (gp.gameState == gp.dialogueState) {
             dialogueState(code);
-
         }
-
         else if (gp.gameState == gp.characterState) {
             characterState(code);
         }
@@ -130,6 +129,16 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;
+        }
+        if(code == KeyEvent.VK_T){
+            if (checkDrawTime == false){
+                checkDrawTime = true;
+            }else {
+                checkDrawTime = false;
+            }
+        }
+        if(code == KeyEvent.VK_R){
+            gp.tileM.loadMap("/maps/worldv2.txt");
         }
     }
     public void pauseState(int code){

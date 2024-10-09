@@ -113,7 +113,7 @@ public class TileManager {
             }
             br.close(); //scan text file line by line and get them to numbers[]
         } catch(Exception e) {
-
+            e.printStackTrace();
         }
     }
     public void draw(Graphics2D g2) {
