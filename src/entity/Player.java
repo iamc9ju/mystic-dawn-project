@@ -212,6 +212,7 @@ public class Player extends Entity {
         if(index != 999){
 
             if(invincible == false){
+                gp.playSoundEffect(6);
                     life -= 1;
                 invincible = true;
             }
@@ -223,23 +224,26 @@ public class Player extends Entity {
         if(index != 999){
             if(gp.monster[index].invincible == false){
 
+                gp.playSoundEffect(5);
                 gp.monster[index].life -=1;
                 gp.monster[index].invincible = true;
+                gp.monster[index].damageReaction();
 
                 if(gp.monster[index].life <=0){
-                    gp.monster[index] = null;
+                    gp.monster[index].dying = true;
                 }
             }
-            System.out.println("Hit");
         }
 
     }
     public void interactNPC(int i){
         if(gp.keyH.enterPressed == true){
             if(i != 999){
+                gp.playSoundEffect(7);
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
             }else{
+//                gp.playSoundEffect(7);
                 attacking = true;
             }
         }
