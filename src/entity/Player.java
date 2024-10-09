@@ -238,7 +238,12 @@ public class Player extends Entity {
 
             if(invincible == false){
                 gp.playSoundEffect(6);
-                    life -= 1;
+
+                int damage = gp.monster[index].attack - defense;
+                if(damage <= 0){
+                    damage = 0;
+                }
+                life -= damage;
                 invincible = true;
             }
 
@@ -249,18 +254,47 @@ public class Player extends Entity {
         if(index != 999){
             if(gp.monster[index].invincible == false){
 
+                int damage = attack - gp.monster[index].defense;
+                if(damage <= 0){
+                    damage = 0;
+                }
+
                 gp.playSoundEffect(5);
-                gp.monster[index].life -= new OBJ_Sword_Normal(gp).attackValue;
+                gp.monster[index].life -= damage;
+                gp.ui.addMessage(damage+ "damage!");
+
                 gp.monster[index].invincible = true;
                 gp.monster[index].damageReaction();
 
                 if(gp.monster[index].life <=0){
                     gp.monster[index].dying = true;
+                    gp.ui.addMessage("Killed the "+gp.monster[index].name + "!");
+                    gp.ui.addMessage("Exp + " + gp.monster[index].exp + "!");
+                    exp += gp.monster[index].exp;
+                    checkLevelUp();
                 }
             }
         }
 
     }
+
+    public void checkLevelUp(){
+        if(exp >= nextLevelExp){
+            level++;
+            nextLevelExp = nextLevelExp * 2;
+            maxLife += 2;
+            life = maxLife;
+            strength++;
+            dexterity++;
+            attack = getAttack();
+            defense = getDefense();
+            gp.playSoundEffect(8);
+            gp.gameState = gp.dialogueState;
+            gp.ui.currentDialogue = "You are level " + level + " now!\n"
+                    + "You feel stronger!";
+        }
+    }
+
     public void interactNPC(int i){
         if(gp.keyH.enterPressed == true){
             if(i != 999){
