@@ -8,15 +8,16 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.UtilityTool;
+import objects.OBJ_Door;
+import objects.OBJ_Shield_Wood;
+import objects.OBJ_Sword_Normal;
 
 public class Player extends Entity {
     KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
-    int standCounter = 0;
-    boolean moving = false;
-    int pixelCounter = 0;
+    public boolean attackCanceled = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -46,8 +47,25 @@ public class Player extends Entity {
         direction = "down";
 
         //PLAYER STATUS
+        level = 1;
         maxLife = 6;
         life = maxLife;
+        strength = 1;
+        dexterity = 1;
+        exp = 0;
+        nextLevelExp = 5;
+        coin = 0;
+        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
+        attack = getAttack();
+        defense = getDefense();
+    }
+    public int getAttack(){
+        return attack = strength * currentWeapon.attackValue;
+    }
+
+    public int getDefense(){
+        return defense = dexterity * currentShield.defenseValue;
     }
 
     public void getPlayerImage() {
@@ -120,8 +138,15 @@ public class Player extends Entity {
                         case "left": worldX -= speed; break;
                         case "right": worldX += speed; break;
                     }
-
                 }
+
+                if(keyH.enterPressed == true && attackCanceled == false){
+                    gp.playMusic(7);
+                    attacking = true;
+//                    spriteCounter = 0;
+                }
+                attackCanceled = false;
+
                 if(attacking == false){
                     spriteCounter++;
                     if (spriteCounter > 10) {
@@ -225,7 +250,7 @@ public class Player extends Entity {
             if(gp.monster[index].invincible == false){
 
                 gp.playSoundEffect(5);
-                gp.monster[index].life -=1;
+                gp.monster[index].life -= new OBJ_Sword_Normal(gp).attackValue;
                 gp.monster[index].invincible = true;
                 gp.monster[index].damageReaction();
 
@@ -239,12 +264,10 @@ public class Player extends Entity {
     public void interactNPC(int i){
         if(gp.keyH.enterPressed == true){
             if(i != 999){
+                attackCanceled = true;
                 gp.playSoundEffect(7);
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
-            }else{
-//                gp.playSoundEffect(7);
-                attacking = true;
             }
         }
     }
