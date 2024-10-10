@@ -5,10 +5,12 @@ import main.KeyHandler;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.UtilityTool;
 import objects.OBJ_Door;
+import objects.OBJ_Key;
 import objects.OBJ_Shield_Wood;
 import objects.OBJ_Sword_Normal;
 
@@ -18,6 +20,10 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
     public boolean attackCanceled = false;
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int maxInventorySize = 20;
+
+
 
     public Player(GamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -38,6 +44,7 @@ public class Player extends Entity {
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
+        setItems();
     }
 
     public void setDefaultValues() {
@@ -60,6 +67,14 @@ public class Player extends Entity {
         attack = getAttack();
         defense = getDefense();
     }
+
+    public void setItems(){
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
+        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Key(gp));
+    }
+
     public int getAttack(){
         return attack = strength * currentWeapon.attackValue;
     }
@@ -141,7 +156,7 @@ public class Player extends Entity {
                 }
 
                 if(keyH.enterPressed == true && attackCanceled == false){
-                    gp.playMusic(7);
+//                    gp.playMusic(7);
                     attacking = true;
 //                    spriteCounter = 0;
                 }
@@ -299,7 +314,7 @@ public class Player extends Entity {
         if(gp.keyH.enterPressed == true){
             if(i != 999){
                 attackCanceled = true;
-                gp.playSoundEffect(7);
+//                gp.playSoundEffect(7);
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
             }
