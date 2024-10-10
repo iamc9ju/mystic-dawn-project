@@ -9,7 +9,7 @@ public class KeyHandler implements KeyListener {
     GamePanel gp;
 
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,shotKeyPressed;
     //DEBUG
     boolean checkDrawTime;
 
@@ -140,6 +140,9 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_R){
             gp.tileM.loadMap("/maps/worldv2.txt");
         }
+        if(code == KeyEvent.VK_F){
+            shotKeyPressed = true;
+        }
     }
     public void pauseState(int code){
         if(code == KeyEvent.VK_P) {
@@ -202,6 +205,9 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_ENTER){
             enterPressed = false;
+        }
+        if(code == KeyEvent.VK_F){
+            shotKeyPressed = false;
         }
     }
 }
