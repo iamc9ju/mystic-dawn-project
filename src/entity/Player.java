@@ -53,6 +53,9 @@ public class Player extends Entity {
         level = 1;
         maxLife = 6;
         life = maxLife;
+        maxMana = 4;
+        mana = maxMana;
+        ammo = 10;
         strength = 1;
         dexterity = 1;
         exp = 0;
@@ -187,11 +190,15 @@ public class Player extends Entity {
         }
         gp.keyH.enterPressed = false;
 
-        if(gp.keyH.shotKeyPressed == true && projectile.alive == false && shotAvailableCounter == 30 ){
+        if(gp.keyH.shotKeyPressed == true && projectile.alive == false
+                && shotAvailableCounter == 30 && projectile.haveResource(this) == true ){
             System.out.println("Test");
 
             //set default coordinates, direction and user
-            projectile.set(worldX,worldY,direction,true,this,90);
+            projectile.set(worldX,worldY,direction,true,this);
+
+            //subtract the cose
+            projectile.subtractResource(this);
 
             //add it ti the list
             gp.projectileList.add(projectile);
