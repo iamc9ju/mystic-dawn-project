@@ -11,14 +11,13 @@ public class OBJ_Fireball extends Projectile {
         this.gp = gp;
 
         name = "Fireball";
-        speed = 5;
+        speed = 10;
         life = maxLife;
         attack = 2;
         useCost = 1;
         alive = false;
         getImage();
     }
-
     public void getImage(){
         up1 = setUp("/projectile/fireball_up_1",gp.tileSize,gp.tileSize);
         up2 = setUp("/projectile/fireball_up_2",gp.tileSize,gp.tileSize);
@@ -30,6 +29,4 @@ public class OBJ_Fireball extends Projectile {
         right2 = setUp("/projectile/fireball_right_2",gp.tileSize,gp.tileSize);
 
     }
-
-
 }

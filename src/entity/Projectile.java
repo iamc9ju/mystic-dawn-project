@@ -9,15 +9,27 @@ public class Projectile extends Entity{
         super(gp);
     }
 
-    public void set(int worldX,int worldY,String direction,boolean alive,Entity user){
+    public void set(int worldX,int worldY,String direction,boolean alive,Entity user,int life){
         this.worldX = worldX;
         this.worldY = worldY;
         this.direction = direction;
         this.alive = alive;
         this.user = user;
-        this.life = this.maxLife; //reset the life to the max value every time you shoot it
+        this.life = life;
     }
     public void update(){
+
+        if(user == gp.player){
+            int monsterIndex = gp.collisionChecker.checkEntity(this,gp.monster);
+            if(monsterIndex != 999){
+                gp.player.damageMonster(monsterIndex,attack);
+                alive = false;
+            }
+        }
+        if(user != gp.player){
+
+        }
+
         switch (direction){
             case "up": worldY -= speed;break;
             case "down": worldY += speed;break;

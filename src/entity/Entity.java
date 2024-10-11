@@ -39,8 +39,10 @@ public class Entity {
     public int actionLockCounter = 0;
     public int spriteCounter = 0;
     public int invincibleCounter = 0;
+    public int shotAvailableCounter = 0;
     int dyingCounter = 0;
     int hpBarCounter = 0;
+
 
     //CHARACTER ATTRIBUTES
     public String name;

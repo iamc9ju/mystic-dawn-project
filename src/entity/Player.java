@@ -187,14 +187,15 @@ public class Player extends Entity {
         }
         gp.keyH.enterPressed = false;
 
-        if(gp.keyH.shotKeyPressed == true && projectile.alive == false ){
+        if(gp.keyH.shotKeyPressed == true && projectile.alive == false && shotAvailableCounter == 30 ){
             System.out.println("Test");
 
             //set default coordinates, direction and user
-            projectile.set(worldX,worldY,direction,true,this);
+            projectile.set(worldX,worldY,direction,true,this,90);
 
             //add it ti the list
             gp.projectileList.add(projectile);
+            shotAvailableCounter = 0;
 
             gp.playSoundEffect(10);
         }
@@ -205,6 +206,9 @@ public class Player extends Entity {
                 invincible = false;
                 invincibleCounter = 0;
             }
+        }
+        if(shotAvailableCounter < 30){
+            shotAvailableCounter++;
         }
     }
 
@@ -236,7 +240,7 @@ public class Player extends Entity {
             solidArea.height = attackArea.height;
             //Check monster collision with the updated worldX,worldY and solidArea
             int monsterIndex = gp.collisionChecker.checkEntity(this,gp.monster);
-            damageMonster(monsterIndex);
+            damageMonster(monsterIndex,attack);
 
 
             //After checking collision,restore the original data;
@@ -288,7 +292,7 @@ public class Player extends Entity {
         }
     }
 
-    public void damageMonster(int index){
+    public void damageMonster(int index,int attack){
         if(index != 999){
             if(gp.monster[index].invincible == false){
 
