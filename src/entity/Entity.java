@@ -46,6 +46,7 @@ public class Entity {
 
     //CHARACTER ATTRIBUTES
     public String name;
+    public int value;
     public int maxLife;
     public int life;
     public int maxMana;
@@ -78,6 +79,7 @@ public class Entity {
     public final int type_axe = 4;
     public final int type_shield = 5;
     public final int type_consumable = 6;
+    public final int type_pickupOnly = 7;
 
     public Entity(GamePanel gp){
         this.gp =gp;
@@ -110,12 +112,23 @@ public class Entity {
 //        solidArea.y = solidAreaDefaultY;
     }
     public void setAction(){}
-    public void damageReaction(){
+    public void damageReaction(){}
+    public void use(Entity entitry){};
+
+    public void checkDrop(){
 
     }
-    public void use(Entity entitry){
 
-    };
+    public void dropItem(Entity droppedItem){
+        for (int i = 0;i< gp.obj.length; i++){
+            if(gp.obj[i] == null){
+                gp.obj[i] = droppedItem;
+                gp.obj[i].worldX = worldX; // the dead monster's worldX
+                gp.obj[i].worldY = worldY;
+                break;
+            }
+        }
+    }
     public void update(){
         setAction();
 
