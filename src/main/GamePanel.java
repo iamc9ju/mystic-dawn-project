@@ -11,6 +11,8 @@ import entity.Entity;
 import entity.Player;
 import entity.Projectile;
 import tile.TileManager;
+import tile_interactive.InteractiveTile;
+
 public class GamePanel extends JPanel implements Runnable{
     //SCREEN settings
     final int originalTileSize = 16; // 32 pixels
@@ -44,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity obj[] = new Entity[20];
     public Entity npc[] = new Entity[10];
     public Entity monster[] = new Entity[20];
+    public InteractiveTile interactiveTile[] = new InteractiveTile[50];
     public ArrayList<Projectile> projectileList = new ArrayList<>();
     ArrayList<Entity> entityList = new ArrayList<>();
 
@@ -67,9 +70,11 @@ public class GamePanel extends JPanel implements Runnable{
         assetSetter.setObject();
         assetSetter.setNPC();
         assetSetter.setMonster();
+        assetSetter.setInteractiveTile();
 //        playMusic(0);
 //        stopMusic();
         gameState = titleState;
+
     }
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -135,6 +140,11 @@ public class GamePanel extends JPanel implements Runnable{
 
                 }
             }
+            for(int i = 0;i < interactiveTile.length; i++){
+                if(interactiveTile[i] != null){
+                    interactiveTile[i].update();
+                }
+            }
         }
         if(gameState == pauseState){
             //nothing
@@ -157,6 +167,13 @@ public class GamePanel extends JPanel implements Runnable{
         //OTHER SCREEN
             //TILE
             tileM.draw(g2);//called draw inside tileManager
+
+            //INTERACTIVE TILE
+            for(int i = 0; i < interactiveTile.length;i++){
+                if(interactiveTile[i] != null){
+                    interactiveTile[i].draw(g2);
+                }
+            }
 
             //เพิ่ม player,npc,object ลง arrayList
             entityList.add(player);
