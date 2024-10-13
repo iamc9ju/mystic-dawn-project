@@ -140,9 +140,9 @@ public class KeyHandler implements KeyListener {
                 checkDrawTime = false;
             }
         }
-        if(code == KeyEvent.VK_R){
-            gp.tileM.loadMap("/maps/worldv2.txt");
-        }
+//        if(code == KeyEvent.VK_R){
+//            gp.tileM.loadMap("/maps/worldv2.txt");
+//        }
         if(code == KeyEvent.VK_F){
             shotKeyPressed = true;
         }
