@@ -1,5 +1,6 @@
 package main;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,14 +20,20 @@ public class GamePanel extends JPanel implements Runnable{
     final int scale = 3;
 
     public final int tileSize = originalTileSize*scale; //48x48 pixels
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 12;
-    public final int screenWidth = maxScreenCol*tileSize;
+    public final int maxScreenCol = 20;
+    public final int maxScreenRow = 14;
+    public final int screenWidth = maxScreenCol*tileSize; //960 piexels
     public final int screenHeight = maxScreenRow*tileSize;
 
     //WORLD PARAMETERS
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
+    //FOR FULL SCREEN
+    int screenWidth2 = screenWidth;
+    int screenHeight2 = screenHeight;
+    BufferedImage tempScreen;
+    Graphics2D g2;
+
 
     int FPS = 60;
 
@@ -58,6 +65,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int characterState = 4;
+    public final int gameOverState = 6;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -76,6 +84,28 @@ public class GamePanel extends JPanel implements Runnable{
 //        stopMusic();
         gameState = titleState;
 
+        tempScreen = new BufferedImage(screenWidth,screenHeight,BufferedImage.TYPE_INT_ARGB);
+        //logic คือวาดภาพหน้าจอเกมใน tempSeen เเล้วเอาภาพที่ได้ไปขยายเต็มจอ จะได้ไม่ต้องเปลี่ยนทีละองค์ประกอบ
+        g2 = (Graphics2D)tempScreen.getGraphics();
+
+    }
+
+    public void retry(){
+        player.setDefaultPositions();
+        player.restoreLifeAndMana();
+        assetSetter.setNPC();
+        assetSetter.setMonster();
+    }
+
+    public void restart(){
+        player.setDefaultValues();
+        player.setDefaultPositions();
+        player.restoreLifeAndMana();
+        player.setItems();
+        assetSetter.setObject();
+        assetSetter.setNPC();
+        assetSetter.setMonster();
+        assetSetter.setInteractiveTile();
     }
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -160,6 +190,97 @@ public class GamePanel extends JPanel implements Runnable{
         }
         if(gameState == pauseState){
             //nothing
+        }
+    }
+
+    public void drawToTempScreen(){
+        //DEBUG
+        long drawStart = 0;
+        if(keyH.checkDrawTime == true){
+            drawStart = System.nanoTime();
+        }
+
+        //TITLE SCREEN
+        if(gameState == titleState){
+            ui.draw(g2);
+        }else{
+            //OTHER SCREEN
+            //TILE
+            tileM.draw(g2);//called draw inside tileManager
+
+            //INTERACTIVE TILE
+            for(int i = 0; i < interactiveTile.length;i++){
+                if(interactiveTile[i] != null){
+                    interactiveTile[i].draw(g2);
+                }
+            }
+
+            //เพิ่ม player,npc,object ลง arrayList
+            entityList.add(player);
+            for(int i = 0;i< npc.length;i++){
+                if(npc[i] != null){
+                    entityList.add(npc[i]);
+                }
+            }
+            for(int i = 0 ; i< obj.length; i++){
+                if(obj[i] != null){
+                    entityList.add(obj[i]);
+                }
+            }
+            for(int i = 0 ; i< monster.length; i++){
+                if(monster[i] != null){
+                    entityList.add(monster[i]);
+                }
+            }
+            for(int i = 0 ; i< projectileList.size(); i++){
+                if(projectileList.get(i) != null){
+                    entityList.add(projectileList.get(i));
+                }
+            }
+            for(int i = 0 ; i< particleList.size(); i++){
+                if(particleList.get(i) != null){
+                    entityList.add(particleList.get(i));
+                }
+            }
+
+            //SORT
+            Collections.sort(entityList, new Comparator<Entity>() {
+                @Override
+                public int compare(Entity e1, Entity e2) {
+                    int result = Integer.compare(e1.worldY,e2.worldY);
+
+                    return result;
+                }
+            });
+
+            //DRAW ENTITIES
+            for(int i =0; i< entityList.size();i++){
+                entityList.get(i).draw(g2);
+            }
+            //EMPTY ENTITY LIST
+            entityList.clear();
+
+        }
+        //UI
+        ui.draw(g2);
+//        DEBUG
+        if(keyH.checkDrawTime == true){
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+
+            g2.setFont(new Font("Arial",Font.PLAIN,20));
+            g2.setColor(Color.white);
+
+            int x = 10;
+            int y = 400;
+            int lineHeight = 20;
+
+            g2.drawString("WorldX" + player.worldX, x, y); y+= lineHeight;
+            g2.drawString("WorldY" + player.worldY,x,y); y+= lineHeight;
+            g2.drawString("Col" + (player.worldX + player.solidArea.x)/tileSize,x,y); y+= lineHeight;
+            g2.drawString("Row" + (player.worldY + player.solidArea.y)/tileSize,x,y ); y+= lineHeight;
+            g2.drawString("Draw Time: " + passed,x,y);
+
         }
     }
     public void paintComponent(Graphics g) {
