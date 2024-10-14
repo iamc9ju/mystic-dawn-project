@@ -17,8 +17,7 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
     public boolean attackCanceled = false;
-    public ArrayList<Entity> inventory = new ArrayList<>();
-    public final int maxInventorySize = 20;
+
 
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -46,8 +45,9 @@ public class Player extends Entity {
     public void setDefaultValues() {
         worldX = gp.tileSize * 23; //player position
         worldY = gp.tileSize * 21;
-//        worldX = gp.tileSize * 12; //player position
-//        worldY = gp.tileSize * 13;
+        worldX = gp.tileSize * 12; //player position
+        worldY = gp.tileSize * 12;
+        gp.currentMap = 1;
         speed = 4;
         direction = "down";
 
@@ -62,7 +62,7 @@ public class Player extends Entity {
         dexterity = 1;
         exp = 0;
         nextLevelExp = 5;
-        coin = 0;
+        coin = 10000;
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
         projectile = new OBJ_Fireball(gp);
@@ -239,7 +239,7 @@ public class Player extends Entity {
             mana = maxMana;
         }
         if(life <= 0){
-            gp.stopMusic();
+//            gp.stopMusic();
             gp.gameState = gp.gameOverState;
             gp.ui.commandNum = -1;
             gp.playSoundEffect(12);
@@ -372,6 +372,7 @@ public class Player extends Entity {
     public void damageInteractiveTile(int index){
         if(index != 999 && gp.interactiveTile[gp.currentMap][index].destructible == true
                 && gp.interactiveTile[gp.currentMap][index].isCorrectItem(this) == true && gp.interactiveTile[gp.currentMap][index].invincible == false){
+//            gp.playSoundEffect(11);
             gp.interactiveTile[gp.currentMap][index].playSoundEffect(11);
             gp.interactiveTile[gp.currentMap][index].life--;
             gp.interactiveTile[gp.currentMap][index].invincible = true;
@@ -405,7 +406,7 @@ public class Player extends Entity {
     }
 
     public void selectItem(){
-        int itemIndex = gp.ui.getItemIndexOnSlot();
+        int itemIndex = gp.ui.getItemIndexOnSlot(gp.ui.playerSlotCol,gp.ui.playerSlotRow);
         if (itemIndex < inventory.size()){
 
             Entity selectedItem = inventory.get(itemIndex);
