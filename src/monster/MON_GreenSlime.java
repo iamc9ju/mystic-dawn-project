@@ -25,12 +25,14 @@ public class MON_GreenSlime extends Entity {
         attack = 5;
         defense = 0;
         exp = 2;
-        projectile = new OBJ_Rock(gp);
+//        projectile = new OBJ_Rock(gp);
+//        collision = false;
 
         solidArea.x = 3;
         solidArea.y = 18;
         solidArea.width = 42;
         solidArea.height = 30;
+        //
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
@@ -49,6 +51,7 @@ public class MON_GreenSlime extends Entity {
     }
 
     public void setAction(){
+        //AI สุ่มเดิน
         actionLockCounter++;
         if (actionLockCounter == 120){
             Random random = new Random();
@@ -68,24 +71,36 @@ public class MON_GreenSlime extends Entity {
             }
             actionLockCounter = 0;
         }
-        int i = new Random().nextInt(100) +1 ;
-        if(i > 99 && projectile.alive == false && shotAvailableCounter == 30){
-            projectile.set(worldX,worldY,direction,true,this);
-            gp.projectileList.add(projectile);
-            shotAvailableCounter = 0;
 
-        }
+//        int i = new Random().nextInt(100) +1 ;
+//        if(i > 99 && projectile.alive == false && shotAvailableCounter == 30){
+//            projectile.set(worldX,worldY,direction,true,this);
+//            gp.projectileList.add(projectile);
+//            shotAvailableCounter = 0;
+//
+//        }
 
     }
     public void damageReaction(){
-        actionLockCounter = 0;
-        direction = gp.player.direction;
+        if(gp.player.direction == "down"){
+            direction = "up";
+        }
+        if(gp.player.direction == "up"){
+            direction = "down";
+        }
+        if(gp.player.direction == "left"){
+            direction = "right";
+        }
+        if(gp.player.direction == "right"){
+            direction = "left";
+        }
     }
 
     public void checkDrop(){
 
         //CAST A DIE
         int i = new Random().nextInt(100)+1;
+
 
         //SET THE MONSTER DROP
         if(i< 50){
@@ -97,5 +112,11 @@ public class MON_GreenSlime extends Entity {
         if(i >= 75 && i < 100){
             dropItem(new OBJ_ManaCrystal(gp));
         }
+    }
+    public void setRandomPosition() {
+        int i = new Random().nextInt(4)+1;
+        worldY = (37 + i) * gp.tileSize;
+        i = new Random().nextInt(7)+1;
+        worldX = (19 + i) * gp.tileSize;
     }
 }

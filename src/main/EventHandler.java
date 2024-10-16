@@ -133,10 +133,11 @@ public class EventHandler {
             gp.playSoundEffect(2);
             gp.player.attackCanceled = true;
 
-            gp.ui.currentDialogue = "You drink water. \nYour life has been recovered.";
+            gp.ui.currentDialogue = "You drink water. \nYour life has been recovered.\n" + "(The progress has been saved)";
             gp.player.life = gp.player.maxLife;
             gp.player.mana = gp.player.maxMana;
             gp.assetSetter.setMonster();
+            gp.saveLoad.save();
         }
     }
     public void teleport(int map, int col, int row){

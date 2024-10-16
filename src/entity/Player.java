@@ -37,17 +37,13 @@ public class Player extends Entity {
 
 
         setDefaultValues();
-        getPlayerImage();
-        getPlayerAttackImage();
-        setItems();
+
     }
 
     public void setDefaultValues() {
         worldX = gp.tileSize * 23; //player position
         worldY = gp.tileSize * 21;
-        worldX = gp.tileSize * 12; //player position
-        worldY = gp.tileSize * 12;
-        gp.currentMap = 1;
+        gp.currentMap = 0;
         speed = 4;
         direction = "down";
 
@@ -68,6 +64,10 @@ public class Player extends Entity {
         projectile = new OBJ_Fireball(gp);
         attack = getAttack();
         defense = getDefense();
+
+        getPlayerImage();
+        getPlayerAttackImage();
+        setItems();
     }
 
     public void setDefaultPositions(){
@@ -76,10 +76,12 @@ public class Player extends Entity {
         direction = "down";
     }
 
-    public void restoreLifeAndMana(){
+    public void restoreStatus(){
         life = maxLife;
         mana = maxMana;
         invincible = false;
+        attacking = false;
+
     }
     public void setItems() {
         inventory.clear();
@@ -105,6 +107,26 @@ public class Player extends Entity {
         left2 = setUp("/player/boy_left_2", gp.tileSize, gp.tileSize);
         right1 = setUp("/player/boy_right_1", gp.tileSize, gp.tileSize);
         right2 = setUp("/player/boy_right_2", gp.tileSize, gp.tileSize);
+    }
+
+    public int getCurrentWeaponSlot(){
+        int currentWeaponSlot = 0;
+        for(int i = 0; i < inventory.size();i++){
+            if(inventory.get(i) == currentWeapon){
+                currentWeaponSlot = i;
+            }
+        }
+        return currentWeaponSlot;
+    }
+
+    public int getCurrentShieldSlot(){
+        int currentShieldSlot = 0;
+        for(int i = 0; i < inventory.size();i++){
+            if(inventory.get(i) == currentShield){
+                currentShieldSlot = i;
+            }
+        }
+        return currentShieldSlot;
     }
 
     public void getPlayerAttackImage() {
@@ -151,6 +173,7 @@ public class Player extends Entity {
             // check tile collision
             collisionOn = false;
             gp.collisionChecker.checkTile(this);
+            gp.collisionChecker.checkEntity(this,gp.monster);
             //CHECK OBJECT COLLISION
             int objIndex = gp.collisionChecker.checkObject(this, true);
             pickUpObject(objIndex);
@@ -308,9 +331,7 @@ public class Player extends Entity {
             else{
                 String text;
 
-                if(inventory.size() != maxInventorySize){
-
-                    inventory.add(gp.obj[gp.currentMap][index]);
+                if(canObtainItem(gp.obj[gp.currentMap][index])){
                     gp.playSoundEffect(1);
                     text = "Got a " + gp.obj[gp.currentMap][index].name + "!";
                 }
@@ -332,7 +353,8 @@ public class Player extends Entity {
 
                 int damage = gp.monster[gp.currentMap][index].attack - defense;
                 if(damage <= 0){
-                    damage = 0;
+                    damage = 1;
+                    gp.ui.addMessage("This monster is too weak for you !");
                 }
                 life -= damage;
                 invincible = true;
@@ -340,7 +362,6 @@ public class Player extends Entity {
 
         }
     }
-
     public void damageMonster(int index,int attack){
         if(index != 999){
             if(gp.monster[gp.currentMap][index].invincible == false){
@@ -422,8 +443,14 @@ public class Player extends Entity {
             }
             if(selectedItem.type == type_consumable){
 
-                selectedItem.use(this);
-                inventory.remove(itemIndex);
+                if (selectedItem.use(this) == true){
+                    if(selectedItem.amount > 1){
+                        selectedItem.amount--;
+                    }
+                    else {
+                        inventory.remove(itemIndex);
+                    }
+                }
             }
         }
     }
@@ -437,6 +464,44 @@ public class Player extends Entity {
                 gp.npc[gp.currentMap][i].speak();
             }
         }
+    }
+
+    public boolean canObtainItem(Entity item){
+
+        boolean canObtain = false;
+
+        //CHECK IF STACKABLE
+        if(item.stackable == true){
+            int index = searchItemInInventory(item.name);
+            if(index != 999){
+                inventory.get(index).amount++;
+                canObtain =true;
+            }
+            else { //New item so need to check vacancy
+                if(inventory.size() != maxInventorySize){
+                    inventory.add(item);
+                    canObtain = true;
+                }
+            }
+        }
+        else { // Not stackable so check vacancy
+            if(inventory.size() != maxInventorySize){
+                inventory.add(item);
+                canObtain = true;
+            }
+        }
+        return canObtain;
+    }
+
+    public int searchItemInInventory(String itemName){
+        int itemIndex = 999;
+        for(int i= 0;i<inventory.size();i++){
+            if(inventory.get(i).name.equals(itemName)){
+                itemIndex = i;
+                break;
+            }
+        }
+        return itemIndex;
     }
 
     public void draw(Graphics2D g2) {

@@ -3,9 +3,6 @@ package objects;
 import entity.Entity;
 import main.GamePanel;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-
 public class OBJ_Heart extends Entity {
 
     GamePanel gp;
@@ -22,9 +19,10 @@ public class OBJ_Heart extends Entity {
         image3 = setUp("/objects/heart_half",gp.tileSize,gp.tileSize);
     }
 
-    public void use(Entity entity){
+    public boolean use(Entity entity){
         gp.playSoundEffect(2);
         gp.ui.addMessage("Life +" + value);
         entity.life += value;
+        return false;
     }
 }

@@ -8,9 +8,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import javax.swing.*;
 
+import data.SaveLoad;
 import entity.Entity;
 import entity.Player;
 import entity.Projectile;
+import monster.MON_GreenSlime;
 import tile.TileManager;
 import tile_interactive.InteractiveTile;
 
@@ -48,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable{
     public AssetSetter assetSetter = new AssetSetter(this);
     public UI ui = new UI(this);
     public EventHandler eventHandler = new EventHandler(this);
+    SaveLoad saveLoad = new SaveLoad(this);
     Thread gameThread;
 
     //ENTITY AND OBJECT
@@ -95,23 +98,26 @@ public class GamePanel extends JPanel implements Runnable{
 
     }
 
-    public void retry(){
+    public void resetGame(boolean restart){
         player.setDefaultPositions();
-        player.restoreLifeAndMana();
+        player.restoreStatus();
         assetSetter.setNPC();
         assetSetter.setMonster();
-    }
 
-    public void restart(){
-        player.setDefaultValues();
-        player.setDefaultPositions();
-        player.restoreLifeAndMana();
-        player.setItems();
-        assetSetter.setObject();
-        assetSetter.setNPC();
-        assetSetter.setMonster();
-        assetSetter.setInteractiveTile();
+        if(restart){
+            player.setDefaultValues();
+            player.setItems();
+            assetSetter.setObject();
+            assetSetter.setInteractiveTile();
+        }
     }
+//    public void restart(){
+//        player.setDefaultPositions();
+//        player.restoreLifeAndMana();
+//        assetSetter.setNPC();
+//        assetSetter.setMonster();
+//
+//    }
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start(); // call run method
@@ -160,9 +166,8 @@ public class GamePanel extends JPanel implements Runnable{
                     }
                     if(monster[currentMap][i].alive == false){
                         monster[currentMap][i].checkDrop();
-                        monster[currentMap][i] = null;
+                        respawnMonster(i);
                     }
-
                 }
             }
             for(int i = 0; i < projectileList.size(); i++){
@@ -398,4 +403,16 @@ public class GamePanel extends JPanel implements Runnable{
         soundEffect.setFile(index);
         soundEffect.play();
     }
+
+    public void respawnMonster(int index) {
+        // สร้างมอนสเตอร์ใหม่
+        monster[currentMap][index] = new MON_GreenSlime(this);  // หรือประเภทมอนสเตอร์อื่นๆ ตามที่คุณต้องการ
+
+        // กำหนดตำแหน่งใหม่ให้กับมอนสเตอร์
+        monster[currentMap][index].setRandomPosition();
+
+        // รีเซ็ตค่าต่างๆ ของมอนสเตอร์
+        monster[currentMap][index].restoreStatus();
+    }
+
 }

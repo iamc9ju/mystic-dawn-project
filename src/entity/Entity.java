@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Entity {
 
@@ -73,6 +74,9 @@ public class Entity {
     public ArrayList<Entity> inventory = new ArrayList<>();
     public final int maxInventorySize = 20;
     public int price;
+    public boolean stackable = false;
+    public int amount = 1;
+
 
     //TYPE
     public int type; // 0 = player, 1 = npc ,2 = monster
@@ -117,7 +121,9 @@ public class Entity {
     }
     public void setAction(){}
     public void damageReaction(){}
-    public void use(Entity entitry){};
+    public boolean use(Entity entitry){
+        return true;
+    };
 
     public void checkDrop(){
 
@@ -176,7 +182,7 @@ public class Entity {
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkObject(this,false);
         gp.collisionChecker.checkEntity(this,gp.npc);
-        gp.collisionChecker.checkEntity(this,gp.monster);
+//        gp.collisionChecker.checkEntity(this,gp.monster);
         gp.collisionChecker.checkEntity(this,gp.interactiveTile);
         boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
 
@@ -319,6 +325,14 @@ public class Entity {
             System.err.println("Image not found. Check resource path!");
         }
         return image;
+    }
+    public void setRandomPosition() {
+    }
+    public void restoreStatus() {
+        alive = true;
+        dying = false;
+        life = maxLife;
+        // รีเซ็ตค่าอื่นๆ ที่จำเป็น เช่น speed, direction, etc.
     }
 
 }
