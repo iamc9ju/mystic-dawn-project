@@ -19,8 +19,6 @@ public class UI {
     Font maruMonica;
     BufferedImage heart_full,heart_half,heart_blank,crystal_full,crystal_blank,coin;
     public boolean messageOn = false;
-//    public String message = "";
-//    int messageCounter = 0;
     ArrayList<String> message = new ArrayList<>();
     ArrayList<Integer> messageCounter = new ArrayList<>();
     public boolean gameFinished = false;
@@ -153,6 +151,7 @@ public class UI {
             i++;
             x += 35;
         }
+
         //DRAW MANA
         x = gp.tileSize/2-5;
         y = (int)(gp.tileSize*1.5);
@@ -162,7 +161,6 @@ public class UI {
             i++;
             x += 35;
         }
-
     }
 
     public void drawMessage(){
@@ -174,15 +172,16 @@ public class UI {
         for(int i = 0;i<message.size();i++){
             if(message.get(i) != null){
 
+                //Shadow
                 g2.setColor(Color.black);
                 g2.drawString(message.get(i),messageX+2,messageY+2);
 
                 g2.setColor(Color.white);
                 g2.drawString(message.get(i),messageX,messageY);
 
-                int counter = messageCounter.get(i) + 1; //message counter ++;
-                messageCounter.set(i,counter);//set thr counter to the array
-                messageY += 50;
+                int counter = messageCounter.get(i) + 1; // เพิ่มค่าตัวนับของข้อความปัจจุบัน
+                messageCounter.set(i, counter); // ตั้งค่าตัวนับกลับไปในรายการ
+                messageY += 50; // เลื่อนตำแหน่งแนวตั้งลงสำหรับข้อความถัดไป
 
                 if(messageCounter.get(i) > 180){
                     message.remove(i);
@@ -191,6 +190,7 @@ public class UI {
             }
         }
     }
+
     public void drawTitleScreen(){
 
         if(titleScreenState == 0){

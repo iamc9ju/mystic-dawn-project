@@ -77,7 +77,6 @@ public class Entity {
     public boolean stackable = false;
     public int amount = 1;
 
-
     //TYPE
     public int type; // 0 = player, 1 = npc ,2 = monster
     public final int type_player = 0;
@@ -91,8 +90,6 @@ public class Entity {
 
     public Entity(GamePanel gp){
         this.gp =gp;
-//        solidAreaDefaultX = solidArea.x;  //เก็บค่าเริ่มต้นของตำแหน่งพื้นที่ชน เพื่อใช้ในภายหลังหากจำเป็น
-//        solidAreaDefaultY = solidArea.y;
     }
 
     public void speak(){
@@ -116,8 +113,6 @@ public class Entity {
                 direction = "left";
                 break;
         }
-//        solidArea.x = solidAreaDefaultX;
-//        solidArea.y = solidAreaDefaultY;
     }
     public void setAction(){}
     public void damageReaction(){}
@@ -130,7 +125,7 @@ public class Entity {
     }
 
     public void dropItem(Entity droppedItem){
-        for (int i = 0;i< gp.obj[1].length; i++){
+        for (int i=0;i<gp.obj[1].length;i++){
             if(gp.obj[gp.currentMap][i] == null){
                 gp.obj[gp.currentMap][i] = droppedItem;
                 gp.obj[gp.currentMap][i].worldX = worldX; // the dead monster's worldX
@@ -138,41 +133,6 @@ public class Entity {
                 break;
             }
         }
-    }
-
-    public Color getParticleColor(){
-        Color color = null;
-        return color;
-    }
-
-    public int getParticleSize(){
-        int size = 0;
-        return size;
-    }
-    public int getParticleSpeed(){
-        int speed = 0;
-        return speed;
-    }
-
-    public int getParticleMaxLife(){
-        int maxLife = 0;
-        return maxLife;
-    }
-    public void generateParticle(Entity generator,Entity target){
-        Color color = generator.getParticleColor();
-        int size = generator.getParticleSize();
-        int speed = generator.getParticleSpeed();
-        int maxLife = getParticleMaxLife();
-
-//        Particle p1 = new Particle(gp,generator,color,size,speed,maxLife,-1,-1);
-//        Particle p2 = new Particle(gp,generator,color,size,speed,maxLife,1,-1);
-//        Particle p3 = new Particle(gp,generator,color,size,speed,maxLife,-1,1);
-//        Particle p4 = new Particle(gp,generator,color,size,speed,maxLife,1,1);
-//
-//        gp.particleList.add(p1);
-//        gp.particleList.add(p2);
-//        gp.particleList.add(p3);
-//        gp.particleList.add(p4);
     }
 
     public void update(){
@@ -334,5 +294,4 @@ public class Entity {
         life = maxLife;
         // รีเซ็ตค่าอื่นๆ ที่จำเป็น เช่น speed, direction, etc.
     }
-
 }
