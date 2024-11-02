@@ -2,10 +2,7 @@ package main;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 import javax.swing.*;
 
 import data.SaveLoad;
@@ -14,6 +11,7 @@ import entity.Player;
 import entity.Projectile;
 import environment.EnvironmentManager;
 import monster.MON_GreenSlime;
+import monster.MON_RedSlime;
 import tile.TileManager;
 import tile_interactive.InteractiveTile;
 
@@ -33,9 +31,6 @@ public class GamePanel extends JPanel implements Runnable{
     public final int maxWorldRow = 50;
     public final int maxMap = 10;
     public int currentMap = 0;
-    //FOR FULL SCREEN
-    int screenWidth2 = screenWidth;
-    int screenHeight2 = screenHeight;
     BufferedImage tempScreen;
     Graphics2D g2;
 
@@ -77,6 +72,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int gameOverState = 6;
     public final int transitionState = 7;
     public final int tradeState = 8;
+
 
 
     public GamePanel(){
@@ -164,6 +160,7 @@ public class GamePanel extends JPanel implements Runnable{
                     npc[currentMap][i].update();
                 }
             }
+
             for(int i = 0; i < monster[1].length; i++){
                 if(monster[currentMap][i] != null){
                     if(monster[currentMap][i].alive == true && monster[currentMap][i].dying == false){
@@ -171,14 +168,25 @@ public class GamePanel extends JPanel implements Runnable{
                     }
                     if(monster[currentMap][i].alive == false){
                         monster[currentMap][i].checkDrop();
-                        respawnMonster(i);
+
+
+                        Random random = new Random();
+                        int k = random.nextInt(100)+1;
+                        if(k <= 75) {
+                            respawnGreenSlimeMonster(i);
+
+
+                        }
+                        else {
+                            respawnRedSlimeMonster(i);
+
+                        }
+
+
+
                     }
                 }
             }
-            for(int i = 0; i < projectile[1].length; i++){
-                if(projectile[currentMap][i] != null){
-                    if(projectile[currentMap][i].alive == true){
-                        projectile[currentMap][i].update();
                     }
                     if(projectile[currentMap][i].alive == false){
                         projectile[currentMap][i] = null;
@@ -186,120 +194,16 @@ public class GamePanel extends JPanel implements Runnable{
 
                 }
             }
-            for(int i = 0; i < particleList.size(); i++){
-                if(particleList.get(i) != null){
-                    if(particleList.get(i).alive == true){
-                        particleList.get(i).update();
-                    }
-                    if(particleList.get(i).alive == false){
-                        particleList.remove(i);
-                    }
 
-                }
-            }
             for(int i = 0;i < interactiveTile[1].length; i++){
                 if(interactiveTile[currentMap][i] != null){
                     interactiveTile[currentMap][i].update();
                 }
             }
         }
-        if(gameState == pauseState){
-            //nothing
-        }
     }
 
-    public void drawToTempScreen(){
-        //DEBUG
-        long drawStart = 0;
-        if(keyH.checkDrawTime == true){
-            drawStart = System.nanoTime();
-        }
 
-        //TITLE SCREEN
-        if(gameState == titleState){
-            ui.draw(g2);
-        }else{
-            //OTHER SCREEN
-            //TILE
-            tileM.draw(g2);//called draw inside tileManager
-
-            //INTERACTIVE TILE
-            for(int i = 0; i < interactiveTile[1].length;i++){
-                if(interactiveTile[currentMap][i] != null){
-                    interactiveTile[currentMap][i].draw(g2);
-                }
-            }
-
-            //เพิ่ม player,npc,object ลง arrayList
-            entityList.add(player);
-            for(int i = 0;i< npc[1].length;i++){
-                if(npc[currentMap][i] != null){
-                    entityList.add(npc[currentMap][i]);
-                }
-            }
-            for(int i = 0 ; i< obj[1].length; i++){
-                if(obj[currentMap][i] != null){
-                    entityList.add(obj[currentMap][i]);
-                }
-            }
-            for(int i = 0 ; i< monster[1].length; i++){
-                if(monster[currentMap][i] != null){
-                    entityList.add(monster[currentMap][i]);
-                }
-            }
-            for(int i = 0 ; i< projectile[i].length; i++){
-                if(projectile[currentMap][i] != null){
-                    entityList.add(projectile[currentMap][i]);
-                }
-            }
-            for(int i = 0 ; i< particleList.size(); i++){
-                if(particleList.get(i) != null){
-                    entityList.add(particleList.get(i));
-                }
-            }
-
-            //SORT
-            Collections.sort(entityList, new Comparator<Entity>() {
-                @Override
-                public int compare(Entity e1, Entity e2) {
-                    int result = Integer.compare(e1.worldY,e2.worldY);
-
-                    return result;
-                }
-            });
-
-            //DRAW ENTITIES
-            for(int i =0; i< entityList.size();i++){
-                entityList.get(i).draw(g2);
-            }
-            //EMPTY ENTITY LIST
-            entityList.clear();
-            //Evironment
-            eManager.draw(g2);
-            //UI
-            ui.draw(g2);
-        }
-
-//        DEBUG
-        if(keyH.checkDrawTime == true){
-            long drawEnd = System.nanoTime();
-            long passed = drawEnd - drawStart;
-
-            g2.setFont(new Font("Arial",Font.PLAIN,20));
-            g2.setColor(Color.white);
-
-            int x = 10;
-            int y = 400;
-            int lineHeight = 20;
-
-            g2.drawString("WorldX" + player.worldX, x, y); y+= lineHeight;
-            g2.drawString("WorldY" + player.worldY,x,y); y+= lineHeight;
-            g2.drawString("Col" + (player.worldX + player.solidArea.x)/tileSize,x,y); y+= lineHeight;
-            g2.drawString("Row" + (player.worldY + player.solidArea.y)/tileSize,x,y ); y+= lineHeight;
-            g2.drawString("Draw Time: " + passed,x,y);
-
-        }
-    }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
@@ -347,11 +251,6 @@ public class GamePanel extends JPanel implements Runnable{
                     entityList.add(projectile[currentMap][i]);
                 }
             }
-            for(int i = 0 ; i< particleList.size(); i++){
-                if(particleList.get(i) != null){
-                    entityList.add(particleList.get(i));
-                }
-            }
 
             //SORT
             Collections.sort(entityList, new Comparator<Entity>() {
@@ -364,16 +263,16 @@ public class GamePanel extends JPanel implements Runnable{
             });
 
             //DRAW ENTITIES
-            for(int i =0; i< entityList.size();i++){
+            for(int i=0; i<entityList.size();i++){
                 entityList.get(i).draw(g2);
             }
             //EMPTY ENTITY LIST
             entityList.clear();
-
             }
             //UI
             ui.draw(g2);
 //        DEBUG
+
         if(keyH.checkDrawTime == true){
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
@@ -411,9 +310,21 @@ public class GamePanel extends JPanel implements Runnable{
         soundEffect.play();
     }
 
-    public void respawnMonster(int index) {
+    public void respawnGreenSlimeMonster(int index) {
         // สร้างมอนสเตอร์ใหม่
-        monster[currentMap][index] = new MON_GreenSlime(this);  // หรือประเภทมอนสเตอร์อื่นๆ ตามที่คุณต้องการ
+        monster[currentMap][index] = new MON_GreenSlime(this);
+        // หรือประเภทมอนสเตอร์อื่นๆ ตามที่คุณต้องการ
+
+        // กำหนดตำแหน่งใหม่ให้กับมอนสเตอร์
+        monster[currentMap][index].setRandomPosition();
+
+        // รีเซ็ตค่าต่างๆ ของมอนสเตอร์
+        monster[currentMap][index].restoreStatus();
+    }
+    public void respawnRedSlimeMonster(int index) {
+        // สร้างมอนสเตอร์ใหม่
+
+        monster[currentMap][index] = new MON_RedSlime(this); // หรือประเภทมอนสเตอร์อื่นๆ ตามที่คุณต้องการ
 
         // กำหนดตำแหน่งใหม่ให้กับมอนสเตอร์
         monster[currentMap][index].setRandomPosition();

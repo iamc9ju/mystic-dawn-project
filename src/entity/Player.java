@@ -230,7 +230,6 @@ public class Player extends Entity {
 
         if(gp.keyH.shotKeyPressed == true && projectile.alive == false
                 && shotAvailableCounter == 30 && projectile.haveResource(this) == true ){
-            System.out.println("Test");
 
             //set default coordinates, direction and user
             projectile.set(worldX,worldY,direction,true,this);
@@ -416,7 +415,7 @@ public class Player extends Entity {
             gp.interactiveTile[gp.currentMap][index].invincible = true;
 
             //Generate Particle
-            generateParticle(gp.interactiveTile[gp.currentMap][index],gp.interactiveTile[gp.currentMap][index]);
+//            generateParticle(gp.interactiveTile[gp.currentMap][index],gp.interactiveTile[gp.currentMap][index]);
 
             if(gp.interactiveTile[gp.currentMap][index].life == 0){
                 gp.interactiveTile[gp.currentMap][index] = gp.interactiveTile[gp.currentMap][index].getDestroyedForm();

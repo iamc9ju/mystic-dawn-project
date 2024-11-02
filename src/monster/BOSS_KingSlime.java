@@ -5,34 +5,33 @@ import main.GamePanel;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_Heart;
 import objects.OBJ_ManaCrystal;
-import objects.OBJ_Rock;
 
 import java.util.Random;
 
-public class MON_GreenSlime extends Entity {
-    public static final String objName = "Green Slime";
+public class BOSS_KingSlime extends Entity {
+
     GamePanel gp;
 
-    public MON_GreenSlime(GamePanel gp) {
+    public BOSS_KingSlime(GamePanel gp) {
         super(gp);
         this.gp = gp;
 
         type = type_monster;
-        name = objName;
-        defaultSpeed = 1;
-        speed = defaultSpeed;
-        maxLife = 5;
+        name = "Red Slime";
+        speed = 5;
+        maxLife = 50;
         life = maxLife;
-        attack = 2;
+        attack = 30;
         defense = 0;
-        exp = 2;
+        exp = 100;
 //        projectile = new OBJ_Rock(gp);
 //        collision = false;
 
+        int size = gp.tileSize*5;
         solidArea.x = 3;
         solidArea.y = 18;
-        solidArea.width = 42;
-        solidArea.height = 30;
+        solidArea.width = size;
+        solidArea.height = size-30;
         //
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
@@ -40,15 +39,16 @@ public class MON_GreenSlime extends Entity {
         getImage();
     }
 
+    int i=5;
     public void getImage(){
-        up1 = setUp("/monster/greenslime_down_1",gp.tileSize,gp.tileSize);
-        up2 = setUp("/monster/greenslime_down_2",gp.tileSize,gp.tileSize);
-        down1 = setUp("/monster/greenslime_down_1",gp.tileSize,gp.tileSize);
-        down2 = setUp("/monster/greenslime_down_2",gp.tileSize,gp.tileSize);
-        left1 = setUp("/monster/greenslime_down_1",gp.tileSize,gp.tileSize);
-        left2 = setUp("/monster/greenslime_down_2",gp.tileSize,gp.tileSize);
-        right1 = setUp("/monster/greenslime_down_1",gp.tileSize,gp.tileSize);
-        right2 = setUp("/monster/greenslime_down_2",gp.tileSize,gp.tileSize);
+        up1 = setUp("/monster/boss_1",gp.tileSize*i,gp.tileSize*i);
+       up2 = setUp("/monster/boss_2",gp.tileSize*i,gp.tileSize*i);
+        down1 = setUp("/monster/boss_1",gp.tileSize*i,gp.tileSize*i);
+       down2 = setUp("/monster/boss_2",gp.tileSize*i,gp.tileSize*i);
+        left1 = setUp("/monster/boss_1",gp.tileSize*i,gp.tileSize*i);
+       left2 = setUp("/monster/boss_2",gp.tileSize*i,gp.tileSize*i);
+        right1 = setUp("/monster/boss_1",gp.tileSize*i,gp.tileSize*i);
+        right2 = setUp("/monster/boss_2",gp.tileSize*i,gp.tileSize*i);
     }
 
     public void setAction(){
@@ -73,20 +73,13 @@ public class MON_GreenSlime extends Entity {
             actionLockCounter = 0;
         }
 
-        int i = new Random().nextInt(100) +1 ;
-        if(i >  197 && projectile.alive == false && shotAvailableCounter == 30){
-            projectile.set(worldX,worldY,direction,true,this);
-         //   gp.projectileList.add(projectile);
-
-            for(int ii = 0; ii < gp.projectile[i].length; ii++) {
-                if(gp.projectile[gp.currentMap][i] == null) {
-                    gp.projectile[gp.currentMap][ii] = projectile;
-                    break;
-                }
-            }
-            shotAvailableCounter = 0;
-
-        }
+//        int i = new Random().nextInt(100) +1 ;
+//        if(i > 99 && projectile.alive == false && shotAvailableCounter == 30){
+//            projectile.set(worldX,worldY,direction,true,this);
+//            gp.projectileList.add(projectile);
+//            shotAvailableCounter = 0;
+//
+//        }
 
     }
     public void damageReaction(){

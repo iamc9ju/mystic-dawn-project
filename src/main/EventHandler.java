@@ -59,7 +59,6 @@ public class EventHandler {
 
         if(canTouchEvent){
             if(hit(0,27,16,"right")){damagePit(gp.dialogueState);}
-//            if(hit(26,16,"right") == true){teleport(gp.dialogueState);}
             else if(hit(0,23,12,"up")){healingPool(gp.dialogueState);}
             else if(hit(0,10,39,"any")){
                 teleport(1,12,13);
@@ -71,7 +70,6 @@ public class EventHandler {
                 speak(gp.npc[1][0]);
             }
         }
-
     }
 
     public void speak(Entity entity){
@@ -89,6 +87,7 @@ public class EventHandler {
         if (map == gp.currentMap) {
             gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
             gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
+
             eventRect[map][col][row].x = col*gp.tileSize + eventRect[map][col][row].x;
             eventRect[map][col][row].y = row*gp.tileSize + eventRect[map][col][row].y;
 

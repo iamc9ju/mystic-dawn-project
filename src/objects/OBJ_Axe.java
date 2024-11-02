@@ -13,7 +13,7 @@ public class OBJ_Axe extends Entity {
         name = objName;
         down1 = setUp("/objects/axe",gp.tileSize,gp.tileSize);
         description = "[" + name +"]\nCut the tree!";
-        attackValue = 2;
+        attackValue = 1;
         attackArea.width = 30;
         attackArea.height = 30;
         price = 75;
