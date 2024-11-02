@@ -44,7 +44,8 @@ public class Player extends Entity {
         worldX = gp.tileSize * 23; //player position
         worldY = gp.tileSize * 21;
         gp.currentMap = 0;
-        speed = 4;
+        defaultSpeed = 4;
+        speed = defaultSpeed;
         direction = "down";
 
         //PLAYER STATUS
@@ -70,7 +71,7 @@ public class Player extends Entity {
         setItems();
     }
 
-    public void setDefaultPositions(){
+    public void setDefaultPositions() {
         worldX = gp.tileSize * 23; //player position
         worldY = gp.tileSize * 21;
         direction = "down";
@@ -158,7 +159,6 @@ public class Player extends Entity {
             attacking();
         }
 
-
         // Check if any key is pressed
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
             if (keyH.upPressed) {
@@ -238,8 +238,13 @@ public class Player extends Entity {
             //subtract the cose
             projectile.subtractResource(this);
 
-            //add it ti the list
-            gp.projectileList.add(projectile);
+            //Check vacancy
+            for(int i =0; i < gp.projectile[i].length; i++) {
+                if(gp.projectile[gp.currentMap][i] == null) {
+                    gp.projectile[gp.currentMap][i] = projectile;
+                    break;
+                }
+            }
             shotAvailableCounter = 0;
 
             gp.playSoundEffect(10);
@@ -297,12 +302,13 @@ public class Player extends Entity {
             solidArea.height = attackArea.height;
             //Check monster collision with the updated worldX,worldY and solidArea
             int monsterIndex = gp.collisionChecker.checkEntity(this,gp.monster);
-            damageMonster(monsterIndex,attack);
+            damageMonster(monsterIndex,attack,currentWeapon.knockBackPower);
 
             int interactiveTileIndex = gp.collisionChecker.checkEntity(this,gp.interactiveTile);
             damageInteractiveTile(interactiveTileIndex);
 
-
+            int projectileIndex = gp.collisionChecker.checkEntity(this,gp.projectile);
+            damageProjectile(projectileIndex);
 
             //After checking collision,restore the original data;
             worldX = currentWorldX;
@@ -362,10 +368,15 @@ public class Player extends Entity {
 
         }
     }
-    public void damageMonster(int index,int attack){
+    public void damageMonster(int index,int attack,int knockBackPower){
         if(index != 999){
             if(gp.monster[gp.currentMap][index].invincible == false){
 
+                if(knockBackPower > 0) {
+                    knockBack(gp.monster[gp.currentMap][index], knockBackPower);
+                }
+
+                knockBack(gp.monster[gp.currentMap][index],knockBackPower);
                 int damage = attack - gp.monster[gp.currentMap][index].defense;
                 if(damage <= 0){
                     damage = 0;
@@ -390,6 +401,12 @@ public class Player extends Entity {
 
     }
 
+    public void knockBack(Entity entity,int knockBackPower) {
+        entity.direction = direction;
+        entity.speed += knockBackPower;
+        entity.knockBack = true;
+    }
+
     public void damageInteractiveTile(int index){
         if(index != 999 && gp.interactiveTile[gp.currentMap][index].destructible == true
                 && gp.interactiveTile[gp.currentMap][index].isCorrectItem(this) == true && gp.interactiveTile[gp.currentMap][index].invincible == false){
@@ -407,7 +424,13 @@ public class Player extends Entity {
 
         }
     }
-
+    public void damageProjectile(int i) {
+        if(i!=999) {
+            Entity projectile = gp.projectile[gp.currentMap][i];
+            projectile.alive = false;
+            generateParticle(projectile,projectile);
+        }
+    }
     public void checkLevelUp(){
         if(exp >= nextLevelExp){
             level++;
@@ -469,24 +492,24 @@ public class Player extends Entity {
     public boolean canObtainItem(Entity item){
 
         boolean canObtain = false;
-
+        Entity newItem = gp.eGenerator.getObject(item.name);
         //CHECK IF STACKABLE
         if(item.stackable == true){
-            int index = searchItemInInventory(item.name);
+            int index = searchItemInInventory(newItem.name);
             if(index != 999){
                 inventory.get(index).amount++;
                 canObtain =true;
             }
             else { //New item so need to check vacancy
                 if(inventory.size() != maxInventorySize){
-                    inventory.add(item);
+                    inventory.add(newItem);
                     canObtain = true;
                 }
             }
         }
         else { // Not stackable so check vacancy
             if(inventory.size() != maxInventorySize){
-                inventory.add(item);
+                inventory.add(newItem);
                 canObtain = true;
             }
         }

@@ -5,12 +5,12 @@ import main.GamePanel;
 
 public class OBJ_Key extends Entity {
 
+    public static final String objName = "Key";
     GamePanel gp;
-
     public  OBJ_Key(GamePanel gp){
         super(gp);
         this.gp = gp;
-        name = "Key";
+        name = objName;
         down1 = setUp("/objects/key",gp.tileSize,gp.tileSize);
         description = "[" + name +"]\nIt opens a door.";
         price = 100;
