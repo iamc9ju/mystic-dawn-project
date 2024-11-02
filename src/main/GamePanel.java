@@ -5,7 +5,6 @@ import java.lang.reflect.Array;
 import java.util.*;
 import javax.swing.*;
 
-import data.SaveLoad;
 import entity.Entity;
 import entity.Player;
 import entity.Projectile;
@@ -45,7 +44,6 @@ public class GamePanel extends JPanel implements Runnable{
     public AssetSetter assetSetter = new AssetSetter(this);
     public UI ui = new UI(this);
     public EventHandler eventHandler = new EventHandler(this);
-    SaveLoad saveLoad = new SaveLoad(this);
     Thread gameThread;
 
     //ENTITY AND OBJECT
@@ -168,17 +166,10 @@ public class GamePanel extends JPanel implements Runnable{
                         Random random = new Random();
                         int k = random.nextInt(100)+1;
                         if(k <= 75) {
-                            respawnGreenSlimeMonster(i);
+                            respawnGreenSlimeMonster(i,monster[currentMap][i]);
 
 
                         }
-                        else {
-                            respawnRedSlimeMonster(i);
-
-                        }
-
-
-
                     }
                 }
             }
@@ -310,9 +301,9 @@ public class GamePanel extends JPanel implements Runnable{
         soundEffect.play();
     }
 
-    public void respawnGreenSlimeMonster(int index) {
+    public void respawnGreenSlimeMonster(int index,Entity monsterObj) {
         // สร้างมอนสเตอร์ใหม่
-        monster[currentMap][index] = new MON_GreenSlime(this);
+        monster[currentMap][index] = monsterObj;
         // หรือประเภทมอนสเตอร์อื่นๆ ตามที่คุณต้องการ
 
         // กำหนดตำแหน่งใหม่ให้กับมอนสเตอร์
@@ -321,16 +312,6 @@ public class GamePanel extends JPanel implements Runnable{
         // รีเซ็ตค่าต่างๆ ของมอนสเตอร์
         monster[currentMap][index].restoreStatus();
     }
-    public void respawnRedSlimeMonster(int index) {
-        // สร้างมอนสเตอร์ใหม่
 
-        monster[currentMap][index] = new MON_RedSlime(this); // หรือประเภทมอนสเตอร์อื่นๆ ตามที่คุณต้องการ
-
-        // กำหนดตำแหน่งใหม่ให้กับมอนสเตอร์
-        monster[currentMap][index].setRandomPosition();
-
-        // รีเซ็ตค่าต่างๆ ของมอนสเตอร์
-        monster[currentMap][index].restoreStatus();
-    }
 
 }
