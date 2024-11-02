@@ -2,10 +2,7 @@ package main;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 import javax.swing.*;
 
 import data.SaveLoad;
@@ -13,6 +10,7 @@ import entity.Entity;
 import entity.Player;
 import entity.Projectile;
 import monster.MON_GreenSlime;
+import monster.MON_RedSlime;
 import tile.TileManager;
 import tile_interactive.InteractiveTile;
 
@@ -73,6 +71,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int gameOverState = 6;
     public final int transitionState = 7;
     public final int tradeState = 8;
+
 
 
     public GamePanel(){
@@ -166,7 +165,22 @@ public class GamePanel extends JPanel implements Runnable{
                     }
                     if(monster[currentMap][i].alive == false){
                         monster[currentMap][i].checkDrop();
-                        respawnMonster(i);
+
+
+                        Random random = new Random();
+                        int k = random.nextInt(100)+1;
+                        if(k <= 75) {
+                            respawnGreenSlimeMonster(i);
+
+
+                        }
+                        else {
+                            respawnRedSlimeMonster(i);
+
+                        }
+
+
+
                     }
                 }
             }
@@ -404,9 +418,21 @@ public class GamePanel extends JPanel implements Runnable{
         soundEffect.play();
     }
 
-    public void respawnMonster(int index) {
+    public void respawnGreenSlimeMonster(int index) {
         // สร้างมอนสเตอร์ใหม่
-        monster[currentMap][index] = new MON_GreenSlime(this);  // หรือประเภทมอนสเตอร์อื่นๆ ตามที่คุณต้องการ
+        monster[currentMap][index] = new MON_GreenSlime(this);
+        // หรือประเภทมอนสเตอร์อื่นๆ ตามที่คุณต้องการ
+
+        // กำหนดตำแหน่งใหม่ให้กับมอนสเตอร์
+        monster[currentMap][index].setRandomPosition();
+
+        // รีเซ็ตค่าต่างๆ ของมอนสเตอร์
+        monster[currentMap][index].restoreStatus();
+    }
+    public void respawnRedSlimeMonster(int index) {
+        // สร้างมอนสเตอร์ใหม่
+
+        monster[currentMap][index] = new MON_RedSlime(this); // หรือประเภทมอนสเตอร์อื่นๆ ตามที่คุณต้องการ
 
         // กำหนดตำแหน่งใหม่ให้กับมอนสเตอร์
         monster[currentMap][index].setRandomPosition();

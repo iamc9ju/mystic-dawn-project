@@ -5,24 +5,23 @@ import main.GamePanel;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_Heart;
 import objects.OBJ_ManaCrystal;
-import objects.OBJ_Rock;
 
 import java.util.Random;
 
-public class MON_GreenSlime extends Entity {
+public class MON_RedSlime extends Entity {
 
     GamePanel gp;
 
-    public MON_GreenSlime(GamePanel gp) {
+    public MON_RedSlime(GamePanel gp) {
         super(gp);
         this.gp = gp;
 
         type = type_monster;
-        name = "Green Slime";
-        speed = 1;
+        name = "Red Slime";
+        speed = 5;
         maxLife = 5;
         life = maxLife;
-        attack = 2;
+        attack = 3;
         defense = 0;
         exp = 2;
 //        projectile = new OBJ_Rock(gp);
@@ -40,14 +39,14 @@ public class MON_GreenSlime extends Entity {
     }
 
     public void getImage(){
-        up1 = setUp("/monster/greenslime_down_1",gp.tileSize,gp.tileSize);
-        up2 = setUp("/monster/greenslime_down_2",gp.tileSize,gp.tileSize);
-        down1 = setUp("/monster/greenslime_down_1",gp.tileSize,gp.tileSize);
-        down2 = setUp("/monster/greenslime_down_2",gp.tileSize,gp.tileSize);
-        left1 = setUp("/monster/greenslime_down_1",gp.tileSize,gp.tileSize);
-        left2 = setUp("/monster/greenslime_down_2",gp.tileSize,gp.tileSize);
-        right1 = setUp("/monster/greenslime_down_1",gp.tileSize,gp.tileSize);
-        right2 = setUp("/monster/greenslime_down_2",gp.tileSize,gp.tileSize);
+        up1 = setUp("/monster/redslime_down_1",gp.tileSize,gp.tileSize);
+        up2 = setUp("/monster/redslime_down_2",gp.tileSize,gp.tileSize);
+        down1 = setUp("/monster/redslime_down_1",gp.tileSize,gp.tileSize);
+        down2 = setUp("/monster/redslime_down_2",gp.tileSize,gp.tileSize);
+        left1 = setUp("/monster/redslime_down_1",gp.tileSize,gp.tileSize);
+        left2 = setUp("/monster/redslime_down_2",gp.tileSize,gp.tileSize);
+        right1 = setUp("/monster/redslime_down_1",gp.tileSize,gp.tileSize);
+        right2 = setUp("/monster/redslime_down_2",gp.tileSize,gp.tileSize);
     }
 
     public void setAction(){
