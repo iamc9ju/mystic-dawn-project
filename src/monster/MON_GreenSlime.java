@@ -10,7 +10,7 @@ import objects.OBJ_Rock;
 import java.util.Random;
 
 public class MON_GreenSlime extends Entity {
-
+    public static final String objName = "Green Slime";
     GamePanel gp;
 
     public MON_GreenSlime(GamePanel gp) {
@@ -18,8 +18,9 @@ public class MON_GreenSlime extends Entity {
         this.gp = gp;
 
         type = type_monster;
-        name = "Green Slime";
-        speed = 1;
+        name = objName;
+        defaultSpeed = 1;
+        speed = defaultSpeed;
         maxLife = 5;
         life = maxLife;
         attack = 2;
@@ -72,13 +73,20 @@ public class MON_GreenSlime extends Entity {
             actionLockCounter = 0;
         }
 
-//        int i = new Random().nextInt(100) +1 ;
-//        if(i > 99 && projectile.alive == false && shotAvailableCounter == 30){
-//            projectile.set(worldX,worldY,direction,true,this);
-//            gp.projectileList.add(projectile);
-//            shotAvailableCounter = 0;
-//
-//        }
+        int i = new Random().nextInt(100) +1 ;
+        if(i >  197 && projectile.alive == false && shotAvailableCounter == 30){
+            projectile.set(worldX,worldY,direction,true,this);
+         //   gp.projectileList.add(projectile);
+
+            for(int ii = 0; ii < gp.projectile[i].length; ii++) {
+                if(gp.projectile[gp.currentMap][i] == null) {
+                    gp.projectile[gp.currentMap][ii] = projectile;
+                    break;
+                }
+            }
+            shotAvailableCounter = 0;
+
+        }
 
     }
     public void damageReaction(){

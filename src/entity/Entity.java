@@ -35,6 +35,7 @@ public class Entity {
     public boolean alive = true;
     public boolean dying = false;
     boolean hpBarOn = false;
+    public boolean knockBack = false;
 
 
     //COUNTER
@@ -44,10 +45,11 @@ public class Entity {
     public int shotAvailableCounter = 0;
     int dyingCounter = 0;
     int hpBarCounter = 0;
-
+    int knockBackCounter = 0;
 
     //CHARACTER ATTRIBUTES
     public String name;
+    public int defaultSpeed;
     public int value;
     public int maxLife;
     public int life;
@@ -67,6 +69,8 @@ public class Entity {
     public Projectile projectile;
 
     //ITEM ATTRIBUTES
+    public int knockBackPower = 0;
+
     public int attackValue;
     public int defenseValue;
     public String description = "";
@@ -136,8 +140,38 @@ public class Entity {
     }
 
     public void update(){
-        setAction();
 
+        if(knockBack == true) {
+            if(collisionOn == true) {
+                knockBackCounter = 0;
+                knockBack = false;
+                speed = defaultSpeed;
+            } else if(collisionOn == false) {
+                switch(gp.player.direction) {
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
+                }
+            }
+
+            knockBackCounter++;
+            if(knockBackCounter == 10) {
+                knockBackCounter = 0;
+                knockBack = false;
+                speed = defaultSpeed;
+            }
+        } else {
+            setAction();
+            if(collisionOn == false) {
+                switch(direction) {
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
+                }
+            }
+        }
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkObject(this,false);
@@ -151,14 +185,7 @@ public class Entity {
         }
 
         // if collision is false, player can move
-        if(collisionOn == false) {
-            switch(direction) {
-                case "up": worldY -= speed; break;
-                case "down": worldY += speed; break;
-                case "left": worldX -= speed; break;
-                case "right": worldX += speed; break;
-            }
-        }
+
         spriteCounter++;
         if (spriteCounter > 10) {
             spriteNum = (spriteNum == 1) ? 2 : 1;

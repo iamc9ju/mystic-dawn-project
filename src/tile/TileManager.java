@@ -25,6 +25,7 @@ public class TileManager {
         getTileImage();
         loadMap("/maps/worldV3.txt",0);
         loadMap("/maps/interior01.txt",1);
+        loadMap("/maps/dungeon.txt",2);
     }
 
     public void getTileImage() {
@@ -79,6 +80,7 @@ public class TileManager {
         setUp(43,"floor1",false);
         setUp(44,"table01",true);
 
+        //dungeon
     }
     public void setUp(int index,String imageName,boolean collision){
 
