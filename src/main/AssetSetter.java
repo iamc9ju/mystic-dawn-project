@@ -125,7 +125,7 @@ public class AssetSetter {
     }
 
     public void setInteractiveTile(){
-        int mapNum = 0;
+        int mapNum = 2;
         int i =0;
         gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,27,12);i++;
         gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,28,12);i++;
