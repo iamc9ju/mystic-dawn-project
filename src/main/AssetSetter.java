@@ -179,7 +179,6 @@ public class AssetSetter {
 
 
     }
-
     public void setInteractiveTile(){
         int mapNum = 1;
         int i =0;
