@@ -7,7 +7,7 @@ public class NPC_Merchant extends Entity {
     public  NPC_Merchant(GamePanel gp){
         super(gp);
         direction = "down";
-        speed = 1;
+        speed = 0;
 
         getNpcImage();
         setDialogue();
@@ -46,5 +46,9 @@ public class NPC_Merchant extends Entity {
         super.speak();
         gp.gameState = gp.tradeState;
         gp.ui.npc = this;
+    }
+
+    public void setAction(){
+
     }
 }

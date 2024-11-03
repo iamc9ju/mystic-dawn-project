@@ -92,7 +92,7 @@ public class AssetSetter {
         i = 0;
         gp.npc[mapNum][i] = new NPC_Merchant(gp);
         gp.npc[mapNum][i].worldX = gp.tileSize * 24;
-        gp.npc[mapNum][i].worldY = gp.tileSize * 22;
+        gp.npc[mapNum][i].worldY = gp.tileSize * 21;
         i++;
 
 

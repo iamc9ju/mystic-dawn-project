@@ -431,6 +431,7 @@ public class Player extends Entity {
                 int damage = attack - gp.monster[gp.currentMap][index].defense;
                 if(damage <= 0){
                     damage = 0;
+                    gp.ui.addMessage("Need a higher level.");
                 }
 
                 gp.playSoundEffect(5);
