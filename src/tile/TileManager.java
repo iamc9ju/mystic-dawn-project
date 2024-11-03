@@ -23,8 +23,37 @@ public class TileManager {
         mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
-        loadMap("/maps/Map01.txt",0);
-        loadMap("/maps/interior01.txt",1);
+        try {
+            loadMap("/maps/Map01.txt", 0);
+        } catch (Exception e) {
+            System.out.println("Error loading Map01: " + e.getMessage());
+        }
+
+        try {
+            loadMap("/maps/Map2.txt", 1);
+        } catch (Exception e) {
+            System.out.println("Error loading Map2: " + e.getMessage());
+        }
+
+        try {
+            loadMap("/maps/Map3.txt", 2);
+        } catch (Exception e) {
+            System.out.println("Error loading Map3: " + e.getMessage());
+        }
+
+        try {
+            loadMap("/maps/Map4.txt", 3);
+        } catch (Exception e) {
+            System.out.println("Error loading Map4: " + e.getMessage());
+        }
+
+        try {
+            loadMap("/maps/Map5.txt", 4);
+        } catch (Exception e) {
+            System.out.println("Error loading Map5: " + e.getMessage());
+        }
+
+        //loadMap("/maps/interior01.txt",1);
     }
 
     public void getTileImage() {
@@ -59,8 +88,8 @@ public class TileManager {
         setUp(12,"newBarrier06",true);
         setUp(13,"newBarrier07",true);
         setUp(14,"newGrass00",false);
-        setUp(15,"newGrass01",false);
-        setUp(16,"newGrass02",false);
+        setUp(15,"newGrass01",true);
+        setUp(16,"newGrass02",true);
         setUp(17,"newGrass03",false);
         setUp(18,"newStairs00",false);
         setUp(19,"newStairs01",false);
@@ -326,7 +355,7 @@ public class TileManager {
         setUp(260,"Znboat (4)",false);
         setUp(261,"Znboat (5)",true);
         setUp(262,"Znboat (6)",true);
-        setUp(263,"Znboat (7)",false);
+        setUp(263,"Znboat (7)",true);
 
     }
     public void setUp(int index,String imageName,boolean collision){
