@@ -20,10 +20,10 @@ public class BOSS_KingSlime extends Entity {
         type = type_monster;
         name = "KingSlime";
         speed = 3;
-        maxLife = 50;
+        maxLife = 1000;
         life = maxLife;
-        attack = 10;
-        defense = 10;
+        attack = 100;
+        defense = 100;
         exp = 100;
 //        projectile = new OBJ_Rock(gp);
 //        collision = false;
