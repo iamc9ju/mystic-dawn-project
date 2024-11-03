@@ -16,6 +16,7 @@ public class InteractiveTile extends Entity {
     public boolean isCorrectItem(Entity entity){
         boolean isCorrectItem = false;
         return isCorrectItem;
+        //เช็คว่าอาวุธที่โจมตีถูกต้องไหม
     }
 
     public void playSoundEffect(int index){
