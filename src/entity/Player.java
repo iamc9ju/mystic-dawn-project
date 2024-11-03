@@ -37,7 +37,7 @@ public class Player extends Entity {
 
 
         setDefaultValues();
-
+        getGuardImage();
     }
 
     public void setDefaultValues() {
@@ -170,12 +170,55 @@ public class Player extends Entity {
         }
     }
 
+    public void getGuardImage() {
+        guardUp = setUp("/player/boy_guard_up",gp.tileSize,gp.tileSize);
+        guardDown = setUp("/player/boy_guard_down",gp.tileSize,gp.tileSize);
+        guardLeft = setUp("/player/boy_guard_left",gp.tileSize,gp.tileSize);
+        guardRight = setUp("/player/boy_guard_right",gp.tileSize,gp.tileSize);
+    }
+
     public void update() {
 
-        if (attacking == true) {
+        if(knockBack == true) {
+
+            collisionOn = false;
+            gp.collisionChecker.checkTile(this);
+            //CHECK OBJECT COLLISION
+            gp.collisionChecker.checkObject(this, true);
+
+            //CHECK NPC COLLISION
+            gp.collisionChecker.checkEntity(this, gp.npc);
+
+            //CHECK MONSTER COLLISION
+            gp.collisionChecker.checkEntity(this, gp.monster);
+
+            //CHECK INTERACTIVE TILE COLLISION
+            gp.collisionChecker.checkEntity(this,gp.interactiveTile);
+
+            if(collisionOn == true) {
+                knockBackCounter = 0; //เมื่อชน knock back หยุด
+                knockBack = false;
+                speed = defaultSpeed;
+            } else if(collisionOn == false) {
+                switch(gp.player.direction) {
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
+                }
+            }
+            knockBackCounter++;
+            if(knockBackCounter == 10) {
+                knockBackCounter = 0;
+                knockBack = false;
+                speed = defaultSpeed;
+            }
+        } else if (attacking == true) {
             attacking();
         }
-
+        else if(keyH.spacePressed == true) {
+            guarding = true;
+        }
 
         // Check if any key is pressed
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
@@ -233,7 +276,7 @@ public class Player extends Entity {
 //                   spriteCounter = 0;
             }
             attackCanceled = false;
-
+            guarding = false;
             if (attacking == false) {
                 spriteCounter++;
                 if (spriteCounter > 10) {
@@ -376,7 +419,6 @@ public class Player extends Entity {
                 life -= damage;
                 invincible = true;
             }
-
         }
     }
     public void damageMonster(int index,int attack){
@@ -542,10 +584,16 @@ public class Player extends Entity {
                     tempScreenY = screenY - gp.tileSize;
                     image = (spriteNum == 2) ? attackUp1 : attackUp2;
                 }
+                if(guarding == true) {
+                    image  = guardUp;
+                }
                 break;
             case "down":
                 if(attacking == false){image = (spriteNum == 1) ? down1 : down2;}
                 if(attacking == true){image = (spriteNum == 2) ? attackDown1 : attackDown2;}
+                if(guarding == true) {
+                    image = guardDown;
+                }
                 break;
             case "left":
                 if(attacking == false){image = (spriteNum == 1) ? left1 : left2;}
@@ -553,10 +601,16 @@ public class Player extends Entity {
                     tempScreenX = screenX - gp.tileSize;
                     image = (spriteNum == 2) ? attackLeft1 : attackLeft2;
                 }
+                if(guarding == true){
+                    image = guardLeft;
+                }
                 break;
             case "right":
                 if(attacking == false){image = (spriteNum == 1) ? right1 : right2;}
                 if(attacking == true){image = (spriteNum == 2) ? attackRight1 : attackRight2;}
+                if(guarding == true) {
+                    image = guardRight;
+                }
                 break;
         }
         if(invincible == true){

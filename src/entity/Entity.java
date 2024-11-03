@@ -16,7 +16,8 @@ public class Entity {
 
     public int speed;
     public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
-    public BufferedImage attackUp1, attackUp2,attackDown1,attackDown2,attackLeft1,attackLeft2,attackRight1,attackRight2;
+    public BufferedImage attackUp1, attackUp2,attackDown1,attackDown2,attackLeft1,attackLeft2,attackRight1,attackRight2,guardUp,
+            guardDown,guardRight,guardLeft;
     public BufferedImage image,image2,image3;
     public Rectangle solidArea = new Rectangle(0,0,48,48);
     public Rectangle attackArea = new Rectangle(0,0,0,0);
@@ -36,6 +37,7 @@ public class Entity {
     public boolean dying = false;
     boolean hpBarOn = false;
     public boolean knockBack = false;
+    public boolean guarding = false;
 
     //COUNTER
     public int actionLockCounter = 0;
@@ -115,6 +117,7 @@ public class Entity {
                 break;
         }
     }
+
     public void setAction(){}
     public void damageReaction(){}
     public boolean use(Entity entitry){
@@ -210,11 +213,23 @@ public class Entity {
 
     public void damagePlayer(int attack){
         if(gp.player.invincible == false){
-            gp.playSoundEffect(6);
+
             int damage = attack - gp.player.defense;
-            if(damage <= 0){
-                damage = 0;
+
+            //get opposite direction ของ attacker
+            String canGuardDirection = getOppositeDirection(direction);
+
+            if(gp.player.guarding == true && gp.player.direction.equals(canGuardDirection)) {
+                damage/=3;
+                gp.playSoundEffect(15);
+            } else {
+                //not guarding
+                gp.playSoundEffect(6);
+                if(damage <= 1){
+                    damage = 1;
+                }
             }
+
             life -= damage;
             gp.player.life -=damage;
             gp.player.invincible = true;
@@ -325,5 +340,15 @@ public class Entity {
         dying = false;
         life = maxLife;
         // รีเซ็ตค่าอื่นๆ ที่จำเป็น เช่น speed, direction, etc.
+    }
+    public String getOppositeDirection(String direction) {
+        String oppositeDirection = "";
+        switch(direction) {
+            case "up": oppositeDirection = "down";break;
+            case "down": oppositeDirection = "up";break;
+            case "left": oppositeDirection = "right";break;
+            case "right": oppositeDirection = "left";break;
+        }
+        return oppositeDirection;
     }
 }
