@@ -8,9 +8,10 @@ import java.awt.*;
 import java.io.IOException;
 
 public class OBJ_Door extends Entity {
+    public static final String objName = "Door";
     public  OBJ_Door(GamePanel gp){
         super(gp);
-        name = "Door";
+        name = objName;
         down1 = setUp("/objects/door",gp.tileSize,gp.tileSize);
         down2 = setUp("/objects/door",gp.tileSize,gp.tileSize);
 

@@ -4,7 +4,7 @@ import entity.Entity;
 import main.GamePanel;
 
 public class OBJ_Potion_Red extends Entity {
-
+    public static final String objName = "Red Potion";
     GamePanel gp;
     public OBJ_Potion_Red(GamePanel gp) {
         super(gp);
@@ -13,7 +13,7 @@ public class OBJ_Potion_Red extends Entity {
 
         type = type_consumable;
         value = 5;
-        name = "Red Potion";
+        name = objName;
         down1 = setUp("/objects/potion_red",gp.tileSize,gp.tileSize);
         description = "[" + name +"]\nHeals your life by " + value +".";
         price = 5;
