@@ -18,12 +18,12 @@ public class MON_RedSlime extends Entity {
 
         type = type_monster;
         name = "Red Slime";
-        speed = 5;
-        maxLife = 5;
+        speed = 3;
+        maxLife = 30;
         life = maxLife;
-        attack = 3;
+        attack = 8;
         defense = 0;
-        exp = 2;
+        exp = 10;
 //        projectile = new OBJ_Rock(gp);
 //        collision = false;
 
@@ -113,9 +113,8 @@ public class MON_RedSlime extends Entity {
         }
     }
     public void setRandomPosition() {
-        int i = new Random().nextInt(4)+1;
-        worldY = (37 + i) * gp.tileSize;
-        i = new Random().nextInt(7)+1;
-        worldX = (19 + i) * gp.tileSize;
+        int i = new Random().nextInt(20)+1;
+        worldY = (31) * gp.tileSize;
+        worldX = (12+i) * gp.tileSize;
     }
 }
