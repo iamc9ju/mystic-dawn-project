@@ -3,6 +3,7 @@ package monster;
 import entity.Entity;
 import main.GamePanel;
 import objects.OBJ_Coin_Bronze;
+import objects.OBJ_DarkSword;
 import objects.OBJ_Heart;
 import objects.OBJ_ManaCrystal;
 
@@ -17,12 +18,12 @@ public class BOSS_KingSlime extends Entity {
         this.gp = gp;
 
         type = type_monster;
-        name = "Red Slime";
-        speed = 5;
-        maxLife = 50;
+        name = "KingSlime";
+        speed = 3;
+        maxLife = 1000;
         life = maxLife;
-        attack = 30;
-        defense = 0;
+        attack = 50;
+        defense = 10;
         exp = 100;
 //        projectile = new OBJ_Rock(gp);
 //        collision = false;
@@ -50,6 +51,9 @@ public class BOSS_KingSlime extends Entity {
         right1 = setUp("/monster/boss_1",gp.tileSize*i,gp.tileSize*i);
         right2 = setUp("/monster/boss_2",gp.tileSize*i,gp.tileSize*i);
     }
+
+
+
 
     public void setAction(){
         //AI สุ่มเดิน
@@ -102,22 +106,14 @@ public class BOSS_KingSlime extends Entity {
         //CAST A DIE
         int i = new Random().nextInt(100)+1;
 
-
-        //SET THE MONSTER DROP
-        if(i< 50){
-            dropItem(new OBJ_Coin_Bronze(gp));
-        }
-        if(i >= 50 && i < 75){
-            dropItem(new OBJ_Heart(gp));
-        }
-        if(i >= 75 && i < 100){
-            dropItem(new OBJ_ManaCrystal(gp));
+        if(i >= 0 && i < 100){
+            dropItem(new OBJ_DarkSword(gp));
         }
     }
-    public void setRandomPosition() {
-        int i = new Random().nextInt(4)+1;
-        worldY = (37 + i) * gp.tileSize;
-        i = new Random().nextInt(7)+1;
-        worldX = (19 + i) * gp.tileSize;
-    }
+//    public void setRandomPosition() {
+//        int i = new Random().nextInt(4)+1;
+//        worldY = (37 + i) * gp.tileSize;
+//        i = new Random().nextInt(7)+1;
+//        worldX = (19 + i) * gp.tileSize;
+//    }
 }

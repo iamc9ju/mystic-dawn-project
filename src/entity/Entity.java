@@ -16,7 +16,8 @@ public class Entity {
 
     public int speed;
     public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
-    public BufferedImage attackUp1, attackUp2,attackDown1,attackDown2,attackLeft1,attackLeft2,attackRight1,attackRight2;
+    public BufferedImage attackUp1, attackUp2,attackDown1,attackDown2,attackLeft1,attackLeft2,attackRight1,attackRight2,guardUp,
+            guardDown,guardRight,guardLeft;
     public BufferedImage image,image2,image3;
     public Rectangle solidArea = new Rectangle(0,0,48,48);
     public Rectangle attackArea = new Rectangle(0,0,0,0);
@@ -35,7 +36,8 @@ public class Entity {
     public boolean alive = true;
     public boolean dying = false;
     boolean hpBarOn = false;
-
+    public boolean knockBack = false;
+    public boolean guarding = false;
 
     //COUNTER
     public int actionLockCounter = 0;
@@ -44,9 +46,10 @@ public class Entity {
     public int shotAvailableCounter = 0;
     int dyingCounter = 0;
     int hpBarCounter = 0;
-
+    int knockBackCounter = 0;
 
     //CHARACTER ATTRIBUTES
+    public int defaultSpeed;
     public String name;
     public int value;
     public int maxLife;
@@ -114,6 +117,7 @@ public class Entity {
                 break;
         }
     }
+
     public void setAction(){}
     public void damageReaction(){}
     public boolean use(Entity entitry){
@@ -136,7 +140,38 @@ public class Entity {
     }
 
     public void update(){
-        setAction();
+
+        if(knockBack == true) {
+            if(collisionOn == true) {
+                knockBackCounter = 0; //เมื่อชน knock back หยุด
+                knockBack = false;
+                speed = defaultSpeed;
+            } else if(collisionOn == false) {
+                switch(gp.player.direction) {
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
+                }
+            }
+            knockBackCounter++;
+            if(knockBackCounter == 10) {
+                knockBackCounter = 0;
+                knockBack = false;
+                speed = defaultSpeed;
+            }
+        }else {
+            setAction();
+            // if collision is false, player can move
+            if(collisionOn == false) {
+                switch(direction) {
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
+                }
+            }
+        }
 
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
@@ -178,11 +213,23 @@ public class Entity {
 
     public void damagePlayer(int attack){
         if(gp.player.invincible == false){
-            gp.playSoundEffect(6);
+
             int damage = attack - gp.player.defense;
-            if(damage <= 0){
-                damage = 0;
+
+            //get opposite direction ของ attacker
+            String canGuardDirection = getOppositeDirection(direction);
+
+            if(gp.player.guarding == true && gp.player.direction.equals(canGuardDirection)) {
+                damage/=3;
+                gp.playSoundEffect(15);
+            } else {
+                //not guarding
+                gp.playSoundEffect(6);
+                if(damage <= 1){
+                    damage = 1;
+                }
             }
+
             life -= damage;
             gp.player.life -=damage;
             gp.player.invincible = true;
@@ -246,7 +293,7 @@ public class Entity {
                 g2.drawImage(image, screenX, screenY, null);
                 changeAlpha(g2,1f);
                 g2.setColor(Color.red);
-                g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
+//                g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
 
         }
     }
@@ -293,5 +340,15 @@ public class Entity {
         dying = false;
         life = maxLife;
         // รีเซ็ตค่าอื่นๆ ที่จำเป็น เช่น speed, direction, etc.
+    }
+    public String getOppositeDirection(String direction) {
+        String oppositeDirection = "";
+        switch(direction) {
+            case "up": oppositeDirection = "down";break;
+            case "down": oppositeDirection = "up";break;
+            case "left": oppositeDirection = "right";break;
+            case "right": oppositeDirection = "left";break;
+        }
+        return oppositeDirection;
     }
 }

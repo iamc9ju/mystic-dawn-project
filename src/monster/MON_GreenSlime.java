@@ -17,10 +17,11 @@ public class MON_GreenSlime extends Entity {
         super(gp);
         this.gp = gp;
 
+        defaultSpeed = 1;
         type = type_monster;
         name = "Green Slime";
-        speed = 1;
-        maxLife = 5;
+        speed = defaultSpeed;
+        maxLife = 10;
         life = maxLife;
         attack = 2;
         defense = 0;
@@ -91,17 +92,14 @@ public class MON_GreenSlime extends Entity {
         if(gp.player.direction == "left"){
             direction = "right";
         }
-        if(gp.player.direction == "right"){
+        if(gp.player.direction == "right"){     
             direction = "left";
         }
     }
 
     public void checkDrop(){
-
         //CAST A DIE
         int i = new Random().nextInt(100)+1;
-
-
         //SET THE MONSTER DROP
         if(i< 50){
             dropItem(new OBJ_Coin_Bronze(gp));
