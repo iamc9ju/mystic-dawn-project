@@ -6,7 +6,7 @@ public class Main {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("John Snow adventure");
+        window.setTitle("Slime chaser");
 
         GamePanel gamepanel = new GamePanel();
         window.add(gamepanel);

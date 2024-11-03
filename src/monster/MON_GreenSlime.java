@@ -91,17 +91,14 @@ public class MON_GreenSlime extends Entity {
         if(gp.player.direction == "left"){
             direction = "right";
         }
-        if(gp.player.direction == "right"){
+        if(gp.player.direction == "right"){     
             direction = "left";
         }
     }
 
     public void checkDrop(){
-
         //CAST A DIE
         int i = new Random().nextInt(100)+1;
-
-
         //SET THE MONSTER DROP
         if(i< 50){
             dropItem(new OBJ_Coin_Bronze(gp));

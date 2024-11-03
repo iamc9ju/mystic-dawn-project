@@ -199,7 +199,7 @@ public class UI {
 
             //TITLE NAME
             g2.setFont(g2.getFont().deriveFont(Font.BOLD,88F));
-            String text = "John Snow Adventure";
+            String text = "Slime chaser";
             int x = getXforCenteredText(text);
             int y = gp.tileSize * 3;
 
