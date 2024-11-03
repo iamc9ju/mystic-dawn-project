@@ -357,6 +357,19 @@ public class TileManager {
         setUp(262,"Znboat (6)",true);
         setUp(263,"Znboat (7)",true);
 
+        setUp(264,"zzbridge",false);
+        setUp(265,"zzbridge1",false);
+        setUp(266,"zzbridge10",false);
+        setUp(267,"zzbridge11",false);
+        setUp(268,"zzbridge12",false);
+        setUp(269,"zzbridge2",false);
+        setUp(270,"zzbridge3",false);
+        setUp(271,"zzbridge4",false);
+        setUp(272,"zzbridge5",false);
+        setUp(273,"zzbridge6",false);
+        setUp(274,"zzbridge8",false);
+        setUp(275,"zzbridge9",false);
+
     }
     public void setUp(int index,String imageName,boolean collision){
 

@@ -61,7 +61,7 @@ public class EventHandler {
             if(hit(0,27,16,"right")){damagePit(gp.dialogueState);}
             else if(hit(0,23,12,"up")){healingPool(gp.dialogueState);}
             else if(hit(0,22,45,"any")||hit(0,20,45,"any")||hit(0,21,45,"any")){
-                teleport(1,34,35);
+                teleport(1,37,36);
             }
             else if(hit(1,28,35,"any")||hit(1,27,35,"any")){
                 teleport(2,23,25);
@@ -71,6 +71,9 @@ public class EventHandler {
             }
             else if(hit(1,36,13,"any")){
                 teleport(3,8,45);
+            }
+            else if(hit(1,36,37,"any")||hit(1,37,37,"any")){
+                teleport(0,21,45);
             }
             else if(hit(3,27,21,"any")){
                 teleport(4,32,38);
