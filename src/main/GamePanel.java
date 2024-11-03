@@ -45,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable{
     public UI ui = new UI(this);
     public EventHandler eventHandler = new EventHandler(this);
     Thread gameThread;
+    public EntityGenerator eGenerator = new EntityGenerator(this);
 
     //ENTITY AND OBJECT
     public Player player = new Player(this,keyH);

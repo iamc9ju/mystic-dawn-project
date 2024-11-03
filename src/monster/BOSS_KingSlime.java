@@ -52,6 +52,9 @@ public class BOSS_KingSlime extends Entity {
         right2 = setUp("/monster/boss_2",gp.tileSize*i,gp.tileSize*i);
     }
 
+
+
+
     public void setAction(){
         //AI สุ่มเดิน
         actionLockCounter++;
@@ -102,8 +105,6 @@ public class BOSS_KingSlime extends Entity {
 
         //CAST A DIE
         int i = new Random().nextInt(100)+1;
-
-
 
         if(i >= 0 && i < 100){
             dropItem(new OBJ_DarkSword(gp));

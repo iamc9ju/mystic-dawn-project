@@ -9,7 +9,7 @@ public class KeyHandler implements KeyListener {
     GamePanel gp;
 
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,shotKeyPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,shotKeyPressed,spacePressed;
     //DEBUG
     boolean checkDrawTime;
 
@@ -111,6 +111,10 @@ public class KeyHandler implements KeyListener {
 //        }
         if(code == KeyEvent.VK_F){
             shotKeyPressed = true;
+        }
+
+        if(code == KeyEvent.VK_SPACE) {
+            spacePressed = true;
         }
     }
     public void pauseState(int code){
@@ -272,6 +276,9 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_F){
             shotKeyPressed = false;
+        }
+        if(code == KeyEvent.VK_SPACE) {
+            spacePressed = false;
         }
     }
 }
