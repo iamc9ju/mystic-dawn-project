@@ -119,11 +119,55 @@ public class AssetSetter {
         gp.monster[mapNum][i].worldY = gp.tileSize * 42;
         i++;
 
-        gp.monster[mapNum][i] = new MON_RedSlime(gp);
-        gp.monster[mapNum][i].worldX = gp.tileSize * 34;
-        gp.monster[mapNum][i].worldY = gp.tileSize * 41;
+        gp.monster[3][i] = new MON_RedSlime(gp);
+        gp.monster[3][i].worldX = gp.tileSize * 34;
+        gp.monster[3][i].worldY = gp.tileSize * 31;
         i++;
 
+        gp.monster[3][i] = new MON_RedSlime(gp);
+        gp.monster[3][i].worldX = gp.tileSize * 36;
+        gp.monster[3][i].worldY = gp.tileSize * 31;
+        i++;
+
+        gp.monster[3][i] = new MON_RedSlime(gp);
+        gp.monster[3][i].worldX = gp.tileSize * 25;
+        gp.monster[3][i].worldY = gp.tileSize * 31;
+        i++;
+
+        gp.monster[3][i] = new MON_RedSlime(gp);
+        gp.monster[3][i].worldX = gp.tileSize * 16;
+        gp.monster[3][i].worldY = gp.tileSize * 17;
+        i++;
+
+        gp.monster[3][i] = new MON_RedSlime(gp);
+        gp.monster[3][i].worldX = gp.tileSize * 16;
+        gp.monster[3][i].worldY = gp.tileSize * 16;
+        i++;
+
+        gp.monster[3][i] = new MON_RedSlime(gp);
+        gp.monster[3][i].worldX = gp.tileSize * 2;
+        gp.monster[3][i].worldY = gp.tileSize * 16;
+        i++;
+
+        gp.monster[3][i] = new MON_RedSlime(gp);
+        gp.monster[3][i].worldX = gp.tileSize * 37;
+        gp.monster[3][i].worldY = gp.tileSize * 17;
+        i++;
+
+        gp.monster[3][i] = new MON_RedSlime(gp);
+        gp.monster[3][i].worldX = gp.tileSize * 37;
+        gp.monster[3][i].worldY = gp.tileSize * 20;
+        i++;
+
+        gp.monster[3][i] = new MON_RedSlime(gp);
+        gp.monster[3][i].worldX = gp.tileSize * 36;
+        gp.monster[3][i].worldY = gp.tileSize * 19;
+        i++;
+
+        gp.monster[3][i] = new MON_RedSlime(gp);
+        gp.monster[3][i].worldX = gp.tileSize * 28;
+        gp.monster[3][i].worldY = gp.tileSize * 15;
+        i++;
         gp.monster[4][i] = new BOSS_KingSlime(gp);
         gp.monster[4][i].worldX = gp.tileSize * 31;
         gp.monster[4][i].worldY = gp.tileSize * 23;

@@ -3,6 +3,7 @@ package monster;
 import entity.Entity;
 import main.GamePanel;
 import objects.OBJ_Coin_Bronze;
+import objects.OBJ_DarkSword;
 import objects.OBJ_Heart;
 import objects.OBJ_ManaCrystal;
 
@@ -19,9 +20,9 @@ public class BOSS_KingSlime extends Entity {
         type = type_monster;
         name = "Red Slime";
         speed = 5;
-        maxLife = 50;
+        maxLife = 1;
         life = maxLife;
-        attack = 30;
+        attack = 1;
         defense = 0;
         exp = 100;
 //        projectile = new OBJ_Rock(gp);
@@ -103,15 +104,9 @@ public class BOSS_KingSlime extends Entity {
         int i = new Random().nextInt(100)+1;
 
 
-        //SET THE MONSTER DROP
-        if(i< 50){
-            dropItem(new OBJ_Coin_Bronze(gp));
-        }
-        if(i >= 50 && i < 75){
-            dropItem(new OBJ_Heart(gp));
-        }
-        if(i >= 75 && i < 100){
-            dropItem(new OBJ_ManaCrystal(gp));
+
+        if(i >= 0 && i < 100){
+            dropItem(new OBJ_DarkSword(gp));
         }
     }
     public void setRandomPosition() {
