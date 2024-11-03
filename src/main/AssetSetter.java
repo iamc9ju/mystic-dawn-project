@@ -6,6 +6,7 @@ import monster.BOSS_KingSlime;
 import monster.MON_GreenSlime;
 import monster.MON_RedSlime;
 import objects.*;
+import tile_interactive.IT_Door;
 import tile_interactive.IT_DryTree;
 
 public class AssetSetter {
@@ -67,12 +68,12 @@ public class AssetSetter {
 //        gp.obj[mapNum][i].worldX = gp.tileSize * 20;
 //        gp.obj[mapNum][i].worldY = gp.tileSize * 23;
 
-         mapNum = 4;
-         i = 0;
-        gp.obj[mapNum][i] = new OBJ_Door(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize * 32;
-        gp.obj[mapNum][i].worldY = gp.tileSize * 36;
-        i++;
+//         mapNum = 4;
+//         i = 0;
+//        gp.obj[mapNum][i] = new OBJ_Door(gp);
+//        gp.obj[mapNum][i].worldX = gp.tileSize * 32;
+//        gp.obj[mapNum][i].worldY = gp.tileSize * 36;
+//        i++;
 
 
 
@@ -115,12 +116,12 @@ public class AssetSetter {
         gp.monster[mapNum][i].worldY = gp.tileSize * 37;
         i++;
         gp.monster[mapNum][i] = new MON_GreenSlime(gp);
-        gp.monster[mapNum][i].worldX = gp.tileSize * 34;
-        gp.monster[mapNum][i].worldY = gp.tileSize * 42;
+        gp.monster[mapNum][i].worldX = gp.tileSize * 32;
+        gp.monster[mapNum][i].worldY = gp.tileSize * 40;
         i++;
         gp.monster[mapNum][i] = new MON_GreenSlime(gp);
         gp.monster[mapNum][i].worldX = gp.tileSize * 38;
-        gp.monster[mapNum][i].worldY = gp.tileSize * 42;
+        gp.monster[mapNum][i].worldY = gp.tileSize * 41;
         i++;
 
         gp.monster[3][i] = new MON_RedSlime(gp);
@@ -199,6 +200,12 @@ public class AssetSetter {
         gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,33,17);i++;
         gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,33,18);i++;
         gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,33,19);i++;
+
+
+        gp.interactiveTile[4][i] = new IT_Door(gp,32,36);
+
+        i++;
+
 //        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,27,12);i++;
 //        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,28,12);i++;
 //        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,29,12);i++;

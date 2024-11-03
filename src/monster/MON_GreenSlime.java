@@ -113,7 +113,7 @@ public class MON_GreenSlime extends Entity {
     }
     public void setRandomPosition() {
         int i = new Random().nextInt(4)+1;
-        worldY = (37 + i) * gp.tileSize;
+        worldY = (36 + i) * gp.tileSize;
         i = new Random().nextInt(7)+1;
         worldX = (19 + i) * gp.tileSize;
     }

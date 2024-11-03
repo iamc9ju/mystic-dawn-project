@@ -2,6 +2,9 @@ package entity;
 
 import main.GamePanel;
 import main.UtilityTool;
+import objects.OBJ_Coin_Bronze;
+import objects.OBJ_Heart;
+import objects.OBJ_ManaCrystal;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -31,11 +34,14 @@ public class NPC_Oldman extends  Entity{
     }
 
     public void setDialogue(){
+
         dialogues[0] = "Hello, lad.";
         dialogues[1] = "You come to this island to find \n the treasure?";
         dialogues[2] = "I used to be a great wizard \n but now...I'm a bit too old \n for takingnan adventure.";
         dialogues[3] = "Well, good luck on you.";
+
     }
+
 
     public void setAction(){
 

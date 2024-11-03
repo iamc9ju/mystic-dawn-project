@@ -385,6 +385,7 @@ public class Player extends Entity {
         //inventory items
 
         if(index != 999) {
+
             if(gp.obj[gp.currentMap][index].type == type_pickupOnly){
                 gp.obj[gp.currentMap][index].use(this);
                 gp.obj[gp.currentMap][index] = null;
