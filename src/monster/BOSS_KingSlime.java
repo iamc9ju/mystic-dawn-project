@@ -18,12 +18,12 @@ public class BOSS_KingSlime extends Entity {
         this.gp = gp;
 
         type = type_monster;
-        name = "Red Slime";
-        speed = 5;
-        maxLife = 1;
+        name = "KingSlime";
+        speed = 3;
+        maxLife = 50;
         life = maxLife;
-        attack = 1;
-        defense = 0;
+        attack = 10;
+        defense = 10;
         exp = 100;
 //        projectile = new OBJ_Rock(gp);
 //        collision = false;
@@ -109,10 +109,10 @@ public class BOSS_KingSlime extends Entity {
             dropItem(new OBJ_DarkSword(gp));
         }
     }
-    public void setRandomPosition() {
-        int i = new Random().nextInt(4)+1;
-        worldY = (37 + i) * gp.tileSize;
-        i = new Random().nextInt(7)+1;
-        worldX = (19 + i) * gp.tileSize;
-    }
+//    public void setRandomPosition() {
+//        int i = new Random().nextInt(4)+1;
+//        worldY = (37 + i) * gp.tileSize;
+//        i = new Random().nextInt(7)+1;
+//        worldX = (19 + i) * gp.tileSize;
+//    }
 }
