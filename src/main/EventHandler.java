@@ -60,11 +60,26 @@ public class EventHandler {
         if(canTouchEvent){
             if(hit(0,27,16,"right")){damagePit(gp.dialogueState);}
             else if(hit(0,23,12,"up")){healingPool(gp.dialogueState);}
-            else if(hit(0,10,39,"any")){
-                teleport(1,12,13);
+            else if(hit(0,22,45,"any")||hit(0,20,45,"any")||hit(0,21,45,"any")){
+                teleport(1,34,35);
             }
-            else if(hit(1,12,13,"any")){
-                teleport(0,10,39);
+            else if(hit(1,28,35,"any")||hit(1,27,35,"any")){
+                teleport(2,23,25);
+            }
+            else if(hit(2,24,26,"any")||hit(2,23,26,"any")||hit(2,21,26,"any")||hit(2,24,26,"any")){
+                teleport(1,28,36);
+            }
+            else if(hit(1,36,13,"any")){
+                teleport(3,8,45);
+            }
+            else if(hit(3,27,21,"any")){
+                teleport(4,32,38);
+            }
+            else if(hit(4,31,38,"any")){
+                teleport(3,28,21);
+            }
+            else if(hit(3,7,45,"any")){
+                teleport(1,35,13);
             }
             else if(hit(1,12,9,"up")){
                 speak(gp.npc[1][0]);

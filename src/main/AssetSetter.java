@@ -116,9 +116,9 @@ public class AssetSetter {
         gp.monster[mapNum][i].worldY = gp.tileSize * 41;
         i++;
 
-        gp.monster[mapNum][i] = new BOSS_KingSlime(gp);
-        gp.monster[mapNum][i].worldX = gp.tileSize * 34;
-        gp.monster[mapNum][i].worldY = gp.tileSize * 8;
+        gp.monster[4][i] = new BOSS_KingSlime(gp);
+        gp.monster[4][i].worldX = gp.tileSize * 31;
+        gp.monster[4][i].worldY = gp.tileSize * 23;
         i++;
 
 
