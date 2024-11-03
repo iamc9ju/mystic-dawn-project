@@ -38,6 +38,7 @@ public class Entity {
     boolean hpBarOn = false;
     public boolean knockBack = false;
     public boolean guarding = false;
+    public boolean sleep = false;
 
     //COUNTER
     public int actionLockCounter = 0;
@@ -68,6 +69,7 @@ public class Entity {
     public Entity currentWeapon;
     public Entity currentShield;
     public Projectile projectile;
+    public boolean boss;
 
     //ITEM ATTRIBUTES
     public int attackValue;
@@ -141,37 +143,40 @@ public class Entity {
 
     public void update(){
 
-        if(knockBack == true) {
-            if(collisionOn == true) {
-                knockBackCounter = 0; //เมื่อชน knock back หยุด
-                knockBack = false;
-                speed = defaultSpeed;
-            } else if(collisionOn == false) {
-                switch(gp.player.direction) {
-                    case "up": worldY -= speed; break;
-                    case "down": worldY += speed; break;
-                    case "left": worldX -= speed; break;
-                    case "right": worldX += speed; break;
+        if(sleep == false) {
+            if(knockBack == true) {
+                if(collisionOn == true) {
+                    knockBackCounter = 0; //เมื่อชน knock back หยุด
+                    knockBack = false;
+                    speed = defaultSpeed;
+                } else if(collisionOn == false) {
+                    switch(gp.player.direction) {
+                        case "up": worldY -= speed; break;
+                        case "down": worldY += speed; break;
+                        case "left": worldX -= speed; break;
+                        case "right": worldX += speed; break;
+                    }
                 }
-            }
-            knockBackCounter++;
-            if(knockBackCounter == 10) {
-                knockBackCounter = 0;
-                knockBack = false;
-                speed = defaultSpeed;
-            }
-        }else {
-            setAction();
-            // if collision is false, player can move
-            if(collisionOn == false) {
-                switch(direction) {
-                    case "up": worldY -= speed; break;
-                    case "down": worldY += speed; break;
-                    case "left": worldX -= speed; break;
-                    case "right": worldX += speed; break;
+                knockBackCounter++;
+                if(knockBackCounter == 10) {
+                    knockBackCounter = 0;
+                    knockBack = false;
+                    speed = defaultSpeed;
+                }
+            }else {
+                setAction();
+                // if collision is false, player can move
+                if(collisionOn == false) {
+                    switch(direction) {
+                        case "up": worldY -= speed; break;
+                        case "down": worldY += speed; break;
+                        case "left": worldX -= speed; break;
+                        case "right": worldX += speed; break;
+                    }
                 }
             }
         }
+
 
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
@@ -261,24 +266,7 @@ public class Entity {
                     break;
             }
 
-            //Monster Healbar
-            if(type == type_monster && hpBarOn == true){
 
-                double oneScale = (double)gp.tileSize/maxLife;
-                double hpBarValue = oneScale*life;
-
-                g2.setColor(new Color(35,35,35));
-                g2.fillRect(screenX-1,screenY-16,gp.tileSize+2,12);
-
-                g2.setColor(new Color(255,0,30));
-                g2.fillRect(screenX,screenY-15,(int)hpBarValue,10);
-
-                hpBarCounter++;
-                if(hpBarCounter > 600){
-                    hpBarCounter = 0;
-                    hpBarOn = false;
-                }
-            }
 
 
 

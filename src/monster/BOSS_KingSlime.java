@@ -2,10 +2,7 @@ package monster;
 
 import entity.Entity;
 import main.GamePanel;
-import objects.OBJ_Coin_Bronze;
-import objects.OBJ_DarkSword;
-import objects.OBJ_Heart;
-import objects.OBJ_ManaCrystal;
+import objects.*;
 
 import java.util.Random;
 
@@ -17,14 +14,16 @@ public class BOSS_KingSlime extends Entity {
         super(gp);
         this.gp = gp;
 
+        boss = true;
         type = type_monster;
         name = "KingSlime";
         speed = 3;
-        maxLife = 1000;
+        maxLife = 1;
         life = maxLife;
         attack = 50;
         defense = 10;
         exp = 100;
+        sleep = true;
 //        projectile = new OBJ_Rock(gp);
 //        collision = false;
 
@@ -36,7 +35,6 @@ public class BOSS_KingSlime extends Entity {
         //
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-
         getImage();
     }
 
@@ -51,9 +49,6 @@ public class BOSS_KingSlime extends Entity {
         right1 = setUp("/monster/boss_1",gp.tileSize*i,gp.tileSize*i);
         right2 = setUp("/monster/boss_2",gp.tileSize*i,gp.tileSize*i);
     }
-
-
-
 
     public void setAction(){
         //AI สุ่มเดิน
@@ -107,7 +102,7 @@ public class BOSS_KingSlime extends Entity {
         int i = new Random().nextInt(100)+1;
 
         if(i >= 0 && i < 100){
-            dropItem(new OBJ_DarkSword(gp));
+            dropItem(new OBJ_infinityGaunlet(gp));
         }
     }
 //    public void setRandomPosition() {
