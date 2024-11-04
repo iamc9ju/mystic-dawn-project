@@ -43,9 +43,9 @@ public class Player extends Entity {
     public void setDefaultValues() {
 //        worldX = gp.tileSize * 23; //player position
 //        worldY = gp.tileSize * 14;
-        worldX = gp.tileSize * 33; //player position
-        worldY = gp.tileSize * 38;
-        gp.currentMap = 4;
+        worldX = gp.tileSize * 23; //player position
+        worldY = gp.tileSize * 14;
+        gp.currentMap = 0;
         defaultSpeed = 4;
         speed = defaultSpeed;
         direction = "down";
@@ -62,7 +62,7 @@ public class Player extends Entity {
         exp = 0;
         nextLevelExp = 5;
         coin = 200;
-        currentWeapon = new OBJ_Axe(gp);
+        currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
         projectile = new OBJ_Fireball(gp);
         attack = getAttack();
@@ -77,7 +77,7 @@ public class Player extends Entity {
         int col = 0,row = 0;
         if(gp.currentMap == 0){
             col = 23;
-            row = 21;
+            row = 14;
         }
         if(gp.currentMap == 1){
             col = 27;

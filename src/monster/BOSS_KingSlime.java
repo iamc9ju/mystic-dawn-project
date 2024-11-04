@@ -18,19 +18,19 @@ public class BOSS_KingSlime extends Entity {
         type = type_monster;
         direction = "down";
         name = "KingSlime";
-        speed = 3;
-        maxLife = 1;
+        speed = 1;
+        maxLife = 350;
         life = maxLife;
-        attack = 50;
-        defense = 0;
+        attack = 3;
+        defense = 6;
         exp = 100;
         sleep = true;
 //        projectile = new OBJ_Rock(gp);
 //        collision = false;
 
         int size = gp.tileSize*5;
-        solidArea.x = 3;
-        solidArea.y = 18;
+//        solidArea.x = 3;
+//        solidArea.y = 18;
         solidArea.width = size;
         solidArea.height = size-30;
         //
