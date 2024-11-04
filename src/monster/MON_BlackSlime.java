@@ -2,53 +2,52 @@ package monster;
 
 import entity.Entity;
 import main.GamePanel;
-import objects.*;
+import objects.OBJ_Coin_Bronze;
+import objects.OBJ_Heart;
+import objects.OBJ_ManaCrystal;
 
 import java.util.Random;
 
-public class BOSS_KingSlime extends Entity {
+public class MON_BlackSlime extends Entity {
 
     GamePanel gp;
 
-    public BOSS_KingSlime(GamePanel gp) {
+    public MON_BlackSlime(GamePanel gp) {
         super(gp);
         this.gp = gp;
 
-        boss = true;
+        defaultSpeed = 1;
         type = type_monster;
-        direction = "down";
-        name = "KingSlime";
-        speed = 3;
-        maxLife = 200;
+        name = "Green Slime";
+        speed = defaultSpeed;
+        maxLife = 70;
         life = maxLife;
         attack = 1;
-        defense = 6;
-        exp = 1000;
-        sleep = true;
+        defense = 0;
+        exp = 50;
 //        projectile = new OBJ_Rock(gp);
 //        collision = false;
 
-        int size = gp.tileSize*5;
         solidArea.x = 3;
         solidArea.y = 18;
-        solidArea.width = size;
-        solidArea.height = size-30;
+        solidArea.width = 42;
+        solidArea.height = 30;
         //
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+
         getImage();
     }
 
-    int i=5;
     public void getImage(){
-        up1 = setUp("/monster/boss_1",gp.tileSize*i,gp.tileSize*i);
-       up2 = setUp("/monster/boss_2",gp.tileSize*i,gp.tileSize*i);
-        down1 = setUp("/monster/boss_1",gp.tileSize*i,gp.tileSize*i);
-       down2 = setUp("/monster/boss_2",gp.tileSize*i,gp.tileSize*i);
-        left1 = setUp("/monster/boss_1",gp.tileSize*i,gp.tileSize*i);
-       left2 = setUp("/monster/boss_2",gp.tileSize*i,gp.tileSize*i);
-        right1 = setUp("/monster/boss_1",gp.tileSize*i,gp.tileSize*i);
-        right2 = setUp("/monster/boss_2",gp.tileSize*i,gp.tileSize*i);
+        up1 = setUp("/monster/blackslime_down_1",gp.tileSize,gp.tileSize);
+        up2 = setUp("/monster/blackslime_down_2",gp.tileSize,gp.tileSize);
+        down1 = setUp("/monster/blackslime_down_1",gp.tileSize,gp.tileSize);
+        down2 = setUp("/monster/blackslime_down_2",gp.tileSize,gp.tileSize);
+        left1 = setUp("/monster/blackslime_down_1",gp.tileSize,gp.tileSize);
+        left2 = setUp("/monster/blackslime_down_2",gp.tileSize,gp.tileSize);
+        right1 = setUp("/monster/blackslime_down_1",gp.tileSize,gp.tileSize);
+        right2 = setUp("/monster/blackslime_down_2",gp.tileSize,gp.tileSize);
     }
 
     public void setAction(){
@@ -98,18 +97,23 @@ public class BOSS_KingSlime extends Entity {
     }
 
     public void checkDrop(){
-
         //CAST A DIE
         int i = new Random().nextInt(100)+1;
-
-        if(i >= 0 && i < 100){
-            dropItem(new OBJ_infinityGaunlet(gp));
+        //SET THE MONSTER DROP
+        if(i< 50){
+            dropItem(new OBJ_Coin_Bronze(gp));
+        }
+        if(i >= 50 && i < 75){
+            dropItem(new OBJ_Heart(gp));
+        }
+        if(i >= 75 && i < 100){
+            dropItem(new OBJ_ManaCrystal(gp));
         }
     }
-//    public void setRandomPosition() {
-//        int i = new Random().nextInt(4)+1;
-//        worldY = (37 + i) * gp.tileSize;
-//        i = new Random().nextInt(7)+1;
-//        worldX = (19 + i) * gp.tileSize;
-//    }
+    public void setRandomPosition() {
+        int i = new Random().nextInt(4)+1;
+        worldY = (36 + i) * gp.tileSize;
+        i = new Random().nextInt(7)+1;
+        worldX = (19 + i) * gp.tileSize;
+    }
 }

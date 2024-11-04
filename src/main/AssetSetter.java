@@ -2,9 +2,7 @@ package main;
 
 import entity.NPC_Merchant;
 import entity.NPC_Oldman;
-import monster.BOSS_KingSlime;
-import monster.MON_GreenSlime;
-import monster.MON_RedSlime;
+import monster.*;
 import objects.*;
 import tile_interactive.IT_Door;
 import tile_interactive.IT_DryTree;
@@ -124,6 +122,24 @@ public class AssetSetter {
         gp.monster[mapNum][i].worldY = gp.tileSize * 41;
         i++;
 
+        gp.monster[1][i] = new MON_BlueSlime(gp);
+        gp.monster[1][i].worldX = gp.tileSize * 23;
+        gp.monster[1][i].worldY = gp.tileSize * 38;
+        i++;
+
+        gp.monster[1][i] = new MON_BlueSlime(gp);
+        gp.monster[1][i].worldX = gp.tileSize * 19;
+        gp.monster[1][i].worldY = gp.tileSize * 34;
+        i++;
+        gp.monster[1][i] = new MON_BlueSlime(gp);
+        gp.monster[1][i].worldX = gp.tileSize * 14;
+        gp.monster[1][i].worldY = gp.tileSize * 33;
+        i++;
+        gp.monster[1][i] = new MON_BlueSlime(gp);
+        gp.monster[1][i].worldX = gp.tileSize * 12;
+        gp.monster[1][i].worldY = gp.tileSize * 29;
+        i++;
+
         gp.monster[3][i] = new MON_RedSlime(gp);
         gp.monster[3][i].worldX = gp.tileSize * 34;
         gp.monster[3][i].worldY = gp.tileSize * 31;
@@ -176,6 +192,21 @@ public class AssetSetter {
         gp.monster[4][i] = new BOSS_KingSlime(gp);
         gp.monster[4][i].worldX = gp.tileSize * 31;
         gp.monster[4][i].worldY = gp.tileSize * 23;
+        i++;
+
+        gp.monster[4][i] = new MON_BlackSlime(gp);
+        gp.monster[4][i].worldX = gp.tileSize * 33;
+        gp.monster[4][i].worldY = gp.tileSize * 31;
+        i++;
+
+        gp.monster[4][i] = new MON_BlackSlime(gp);
+        gp.monster[4][i].worldX = gp.tileSize * 35;
+        gp.monster[4][i].worldY = gp.tileSize * 30;
+        i++;
+
+        gp.monster[4][i] = new MON_BlackSlime(gp);
+        gp.monster[4][i].worldX = gp.tileSize * 32;
+        gp.monster[4][i].worldY = gp.tileSize * 31;
         i++;
 
 
