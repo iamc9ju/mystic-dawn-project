@@ -26,20 +26,20 @@ public class Projectile extends Entity{
                 alive = false;
             }
         }
-        if(user != gp.player){
-            boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
-            if(gp.player.invincible == false && contactPlayer == true){
-                damagePlayer(attack);
-                alive = false;
-            }
-        }
-
+//        if(user != gp.player){
+//            boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
+//            if(gp.player.invincible == false && contactPlayer == true){
+//                damagePlayer(attack);
+//                alive = false;
+//            }
+//        }
         switch (direction){
             case "up": worldY -= speed;break;
             case "down": worldY += speed;break;
             case "left": worldX -= speed;break;
             case "right": worldX += speed;break;
         }
+
         life --;
         if(life <= 0){
             alive = false;
@@ -56,10 +56,10 @@ public class Projectile extends Entity{
         }
     }
     public boolean haveResource(Entity user){
-
         boolean haveResource = false;
         return haveResource;
     }
-    public void subtractResource(Entity user){
+    public void useResource(Entity user){
+
     }
 }

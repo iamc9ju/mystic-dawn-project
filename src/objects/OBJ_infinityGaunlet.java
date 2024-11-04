@@ -8,7 +8,7 @@ public class OBJ_infinityGaunlet extends Entity{
         super(gp);
         this.gp = gp;
         setDialogue();
-        type = type_sword;
+//        type = type_sword;
         name = objName;
         down1 = setUp("/objects/infinityGaunlet",gp.tileSize,gp.tileSize);
         description = "["+name+"]\n"+"I'm a Purple Sweet Potato";

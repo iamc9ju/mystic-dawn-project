@@ -250,7 +250,7 @@ public class Player extends Entity {
 
             //CHECK INTERACTIVE TILE COLLISION
             int interactiveTileIndex = gp.collisionChecker.checkEntity(this,gp.interactiveTile);
-
+            damageInteractiveTile(interactiveTileIndex);
             //CHECK EVENT
             gp.eventHandler.checkEvent();
 
@@ -297,7 +297,7 @@ public class Player extends Entity {
             projectile.set(worldX,worldY,direction,true,this);
 
             //subtract the cose
-            projectile.subtractResource(this);
+            projectile.useResource(this);
 
             //add it ti the list
             gp.projectileList.add(projectile);
@@ -313,6 +313,7 @@ public class Player extends Entity {
                 invincibleCounter = 0;
             }
         }
+
         if(shotAvailableCounter < 30){
             shotAvailableCounter++;
         }
@@ -332,11 +333,11 @@ public class Player extends Entity {
 
 
     public void attacking(){
-
         spriteCounter++;
         if(spriteCounter <=5){
             spriteNum = 1;
         }
+
         if(spriteCounter > 5 && spriteCounter <= 25){
             spriteNum = 2;
 
@@ -558,6 +559,9 @@ public class Player extends Entity {
         else { // Not stackable so check vacancy
             if(inventory.size() != maxInventorySize){
                 inventory.add(newItem);
+                if(newItem.name == "Infiny Gaunlet"){
+                    System.out.println("End game");
+                }
                 canObtain = true;
             }
         }
