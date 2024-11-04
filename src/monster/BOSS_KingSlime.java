@@ -21,7 +21,7 @@ public class BOSS_KingSlime extends Entity {
         speed = 1;
         maxLife = 350;
         life = maxLife;
-        attack = 3;
+        attack = 8;
         defense = 6;
         exp = 100;
         sleep = true;
