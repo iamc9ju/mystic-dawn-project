@@ -124,6 +124,12 @@ public class KeyHandler implements KeyListener {
     }
     public void dialogueState(int code){
         if(code == KeyEvent.VK_ENTER){
+            if(gp.currentMap == 4){
+                if(gp.ui.currentDialogue == "You snapped your fingers to kill the psychotic Slime \nin this village to save the kingdom. \n(Press [enter] to close game)"){
+                    System.exit(0);
+                }
+
+            }
             gp.gameState = gp.playState;
         }
     }

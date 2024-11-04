@@ -22,7 +22,7 @@ public class BOSS_KingSlime extends Entity {
         maxLife = 1;
         life = maxLife;
         attack = 50;
-        defense = 2;
+        defense = 0;
         exp = 100;
         sleep = true;
 //        projectile = new OBJ_Rock(gp);
