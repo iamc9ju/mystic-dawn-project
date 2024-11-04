@@ -46,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
     public EventHandler eventHandler = new EventHandler(this);
     Thread gameThread;
     public EntityGenerator eGenerator = new EntityGenerator(this);
+//    public CutsceneManager csManager = new CutsceneManager(this);
 
     //ENTITY AND OBJECT
     public Player player = new Player(this,keyH);
@@ -67,6 +68,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int gameOverState = 6;
     public final int transitionState = 7;
     public final int tradeState = 8;
+    public final int cutsceneState = 9;
 
     public boolean bossBattleOn = false;
 
@@ -198,8 +200,6 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
     }
-
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
@@ -209,22 +209,19 @@ public class GamePanel extends JPanel implements Runnable{
         if(keyH.checkDrawTime == true){
             drawStart = System.nanoTime();
         }
-
         //TITLE SCREEN
         if(gameState == titleState){
             ui.draw(g2);
-        }else{
+        } else{
         //OTHER SCREEN
             //TILE
             tileM.draw(g2);//called draw inside tileManager
-
             //INTERACTIVE TILE
             for(int i = 0; i < interactiveTile[1].length;i++){
                 if(interactiveTile[currentMap][i] != null){
                     interactiveTile[currentMap][i].draw(g2);
                 }
             }
-
             //เพิ่ม player,npc,object ลง arrayList
             entityList.add(player);
             for(int i = 0;i< npc[1].length;i++){
@@ -247,7 +244,6 @@ public class GamePanel extends JPanel implements Runnable{
                     entityList.add(projectileList.get(i));
                 }
             }
-
             //SORT
             Collections.sort(entityList, new Comparator<Entity>() {
                 @Override
@@ -257,7 +253,6 @@ public class GamePanel extends JPanel implements Runnable{
                     return result;
                 }
             });
-
             //DRAW ENTITIES
             for(int i=0; i<entityList.size();i++){
                 entityList.get(i).draw(g2);
@@ -265,10 +260,12 @@ public class GamePanel extends JPanel implements Runnable{
             //EMPTY ENTITY LIST
             entityList.clear();
             }
+            //CutScene
+//            csManager.draw(g2);
             //UI
             ui.draw(g2);
-//        DEBUG
 
+        //DEBUG
         if(keyH.checkDrawTime == true){
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
@@ -285,10 +282,8 @@ public class GamePanel extends JPanel implements Runnable{
             g2.drawString("Col" + (player.worldX + player.solidArea.x)/tileSize,x,y); y+= lineHeight;
             g2.drawString("Row" + (player.worldY + player.solidArea.y)/tileSize,x,y ); y+= lineHeight;
             g2.drawString("Draw Time: " + passed,x,y);
-
         }
         g2.dispose(); //save some memory
-
     }
 
     public void playMusic(int index){
@@ -320,8 +315,5 @@ public class GamePanel extends JPanel implements Runnable{
             // รีเซ็ตค่าต่างๆ ของมอนสเตอร์
             monster[currentMap][index].restoreStatus();
         }
-
     }
-
-
 }

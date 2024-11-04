@@ -9,7 +9,7 @@ public class Main {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("Slime Chaser");
+        window.setTitle("Slime  Chaser");
         new Main().setIcon();
 
         GamePanel gamepanel = new GamePanel();
