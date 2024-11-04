@@ -111,9 +111,9 @@ public class MON_BlackSlime extends Entity {
         }
     }
     public void setRandomPosition() {
-        int i = new Random().nextInt(4)+1;
-        worldY = (32 + i) * gp.tileSize;
-        i = new Random().nextInt(7)+1;
-        worldX = (32 + i) * gp.tileSize;
+        int i = new Random().nextInt(9)+1;
+        worldY = (23 + i) * gp.tileSize;
+        i = new Random().nextInt(25)+1;
+        worldX = (14 + i) * gp.tileSize;
     }
 }
