@@ -141,40 +141,55 @@ public class Entity {
         }
     }
 
+    public void checkCollision() {
+        collisionOn = false;
+        gp.collisionChecker.checkTile(this);
+        gp.collisionChecker.checkObject(this,false);
+        gp.collisionChecker.checkEntity(this,gp.npc);
+        gp.collisionChecker.checkEntity(this,gp.monster);
+        gp.collisionChecker.checkEntity(this,gp.interactiveTile);
+        boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
+        if(type == type_monster && contactPlayer == true) {
+            damagePlayer(attack);
+        }
+    }
+
     public void update(){
         setAction();
-
-            if(knockBack == true) {
-                if(collisionOn == true) {
-                    knockBackCounter = 0; //เมื่อชน knock back หยุด
-                    knockBack = false;
-                    speed = defaultSpeed;
-                } else if(collisionOn == false) {
-                    switch(gp.player.direction) {
-                        case "up": worldY -= speed; break;
-                        case "down": worldY += speed; break;
-                        case "left": worldX -= speed; break;
-                        case "right": worldX += speed; break;
-                    }
-                }
-                knockBackCounter++;
-                if(knockBackCounter == 10) {
-                    knockBackCounter = 0;
-                    knockBack = false;
-                    speed = defaultSpeed;
-                }
-            }else {
-
-                // if collision is false, player can move
-                if(collisionOn == false) {
-                    switch(direction) {
-                        case "up": worldY -= speed; break;
-                        case "down": worldY += speed; break;
-                        case "left": worldX -= speed; break;
-                        case "right": worldX += speed; break;
-                    }
-                }
+//        checkCollision();
+//
+//            if(knockBack == true) {
+//                if(collisionOn == true) {
+//                    knockBackCounter = 0; //เมื่อชน knock back หยุด
+//                    knockBack = false;
+//                    speed = defaultSpeed;
+//                } else if(collisionOn == false) {
+//                    switch(gp.player.direction) {
+//                        case "up": worldY -= speed; break;
+//                        case "down": worldY += speed; break;
+//                        case "left": worldX -= speed; break;
+//                        case "right": worldX += speed; break;
+//                    }
+//                }
+//                knockBackCounter++;
+//                if(knockBackCounter == 10) {
+//                    knockBackCounter = 0;
+//                    knockBack = false;
+//                    speed = defaultSpeed;
+//                }
+//            }else {
+//
+//
+//            }
+        // if collision is false, player can move
+        if(collisionOn == false) {
+            switch(direction) {
+                case "up": worldY -= speed; break;
+                case "down": worldY += speed; break;
+                case "left": worldX -= speed; break;
+                case "right": worldX += speed; break;
             }
+        }
 
 
         collisionOn = false;
