@@ -16,12 +16,13 @@ public class BOSS_KingSlime extends Entity {
 
         boss = true;
         type = type_monster;
+        direction = "down";
         name = "KingSlime";
         speed = 3;
         maxLife = 1;
         life = maxLife;
         attack = 50;
-        defense = 10;
+        defense = 2;
         exp = 100;
         sleep = true;
 //        projectile = new OBJ_Rock(gp);

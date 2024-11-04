@@ -167,7 +167,10 @@ public class GamePanel extends JPanel implements Runnable{
                         Random random = new Random();
                         int k = random.nextInt(100)+1;
                         if(k <= 75) {
-                            respawnGreenSlimeMonster(i,monster[currentMap][i]);
+
+                                respawnMonster(i,monster[currentMap][i]);
+
+
 
 
                         }
@@ -302,16 +305,21 @@ public class GamePanel extends JPanel implements Runnable{
         soundEffect.play();
     }
 
-    public void respawnGreenSlimeMonster(int index,Entity monsterObj) {
-        // สร้างมอนสเตอร์ใหม่
-        monster[currentMap][index] = monsterObj;
-        // หรือประเภทมอนสเตอร์อื่นๆ ตามที่คุณต้องการ
+    public void respawnMonster(int index,Entity monsterObj) {
+        if(monster[currentMap][index].boss == true){
+            monster[currentMap][index] = null;
+        }else{
+            // สร้างมอนสเตอร์ใหม่
+            monster[currentMap][index] = monsterObj;
+            // หรือประเภทมอนสเตอร์อื่นๆ ตามที่คุณต้องการ
 
-        // กำหนดตำแหน่งใหม่ให้กับมอนสเตอร์
-        monster[currentMap][index].setRandomPosition();
+            // กำหนดตำแหน่งใหม่ให้กับมอนสเตอร์
+            monster[currentMap][index].setRandomPosition();
 
-        // รีเซ็ตค่าต่างๆ ของมอนสเตอร์
-        monster[currentMap][index].restoreStatus();
+            // รีเซ็ตค่าต่างๆ ของมอนสเตอร์
+            monster[currentMap][index].restoreStatus();
+        }
+
     }
 
 
