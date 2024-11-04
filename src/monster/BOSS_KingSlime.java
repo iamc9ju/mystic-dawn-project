@@ -32,10 +32,10 @@ public class BOSS_KingSlime extends Entity {
 //        solidArea.x = 3;
 //        solidArea.y = 18;
         solidArea.width = size;
-        solidArea.height = size-30;
+        solidArea.height = size;
         //
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
+        //solidAreaDefaultX = solidArea.x;
+        //solidAreaDefaultY = solidArea.y;
         getImage();
     }
 
