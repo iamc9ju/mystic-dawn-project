@@ -112,8 +112,8 @@ public class MON_BlueSlime extends Entity {
     }
     public void setRandomPosition() {
         int i = new Random().nextInt(4)+1;
-        worldY = (36 + i) * gp.tileSize;
+        worldY = (16 + i) * gp.tileSize;
         i = new Random().nextInt(7)+1;
-        worldX = (19 + i) * gp.tileSize;
+        worldX = (34 + i) * gp.tileSize;
     }
 }
