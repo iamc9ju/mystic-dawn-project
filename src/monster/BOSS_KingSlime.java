@@ -19,11 +19,11 @@ public class BOSS_KingSlime extends Entity {
         direction = "down";
         name = "KingSlime";
         speed = 3;
-        maxLife = 200;
+        maxLife = 1;
         life = maxLife;
-        attack = 1;
-        defense = 6;
-        exp = 1000;
+        attack = 50;
+        defense = 2;
+        exp = 100;
         sleep = true;
 //        projectile = new OBJ_Rock(gp);
 //        collision = false;

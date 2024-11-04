@@ -143,7 +143,7 @@ public class Entity {
 
     public void update(){
         setAction();
-        if(sleep == false) {
+
             if(knockBack == true) {
                 if(collisionOn == true) {
                     knockBackCounter = 0; //เมื่อชน knock back หยุด
@@ -175,10 +175,10 @@ public class Entity {
                     }
                 }
             }
-        }
 
 
         collisionOn = false;
+
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkObject(this,false);
         gp.collisionChecker.checkEntity(this,gp.npc);
@@ -236,7 +236,6 @@ public class Entity {
                 }
             }
 
-            life -= damage;
             gp.player.life -=damage;
             gp.player.invincible = true;
         }
