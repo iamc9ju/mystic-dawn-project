@@ -98,6 +98,7 @@ public class GamePanel extends JPanel implements Runnable{
         player.restoreStatus();
         assetSetter.setNPC();
         assetSetter.setMonster();
+        assetSetter.setObject();
 
         if(restart){
             player.setDefaultValues();
