@@ -142,7 +142,7 @@ public class Entity {
     }
 
     public void update(){
-
+        setAction();
         if(sleep == false) {
             if(knockBack == true) {
                 if(collisionOn == true) {
@@ -164,7 +164,7 @@ public class Entity {
                     speed = defaultSpeed;
                 }
             }else {
-                setAction();
+
                 // if collision is false, player can move
                 if(collisionOn == false) {
                     switch(direction) {
