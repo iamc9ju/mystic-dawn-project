@@ -46,7 +46,6 @@ public class GamePanel extends JPanel implements Runnable{
     public EventHandler eventHandler = new EventHandler(this);
     Thread gameThread;
     public EntityGenerator eGenerator = new EntityGenerator(this);
-    public CutsceneManager csManager = new CutsceneManager(this);
 
     //ENTITY AND OBJECT
     public Player player = new Player(this,keyH);

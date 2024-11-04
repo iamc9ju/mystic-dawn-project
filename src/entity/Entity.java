@@ -199,6 +199,7 @@ public class Entity {
                 case "right": worldX += speed; break;
             }
         }
+
         spriteCounter++;
         if (spriteCounter > 10) {
             spriteNum = (spriteNum == 1) ? 2 : 1;
@@ -267,9 +268,21 @@ public class Entity {
             }
 
 
+            //Monster Healbar
+            if(type == type_monster && hpBarOn == true){
+                double oneScale = (double)gp.tileSize/maxLife;
+                double hpBarValue = oneScale*life;
 
-
-
+                g2.setColor(new Color(35,35,35));
+                g2.fillRect(screenX-1,screenY-16,gp.tileSize+2,12);
+                g2.setColor(new Color(255,0,30));
+                g2.fillRect(screenX,screenY-15,(int)hpBarValue,10);
+                hpBarCounter++;
+                if(hpBarCounter > 600){
+                    hpBarCounter = 0;
+                    hpBarOn = false;
+                }
+            }
                 if(invincible == true){
                     hpBarOn = true;
                     hpBarCounter = 0;
@@ -281,7 +294,7 @@ public class Entity {
                 g2.drawImage(image, screenX, screenY, null);
                 changeAlpha(g2,1f);
                 g2.setColor(Color.red);
-//                g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
+ //               g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
 
         }
     }
