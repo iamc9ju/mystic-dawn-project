@@ -128,25 +128,6 @@ public class Player extends Entity {
         right2 = setUp("/player/boy_right_2", gp.tileSize, gp.tileSize);
     }
 
-    public int getCurrentWeaponSlot(){
-        int currentWeaponSlot = 0;
-        for(int i = 0; i < inventory.size();i++){
-            if(inventory.get(i) == currentWeapon){
-                currentWeaponSlot = i;
-            }
-        }
-        return currentWeaponSlot;
-    }
-
-    public int getCurrentShieldSlot(){
-        int currentShieldSlot = 0;
-        for(int i = 0; i < inventory.size();i++){
-            if(inventory.get(i) == currentShield){
-                currentShieldSlot = i;
-            }
-        }
-        return currentShieldSlot;
-    }
 
     public void getPlayerAttackImage() {
         if (currentWeapon.type == type_sword) {
@@ -272,9 +253,7 @@ public class Player extends Entity {
             }
 
             if (keyH.enterPressed == true && attackCanceled == false) {
-//                   gp.playMusic(7);
                 attacking = true;
-//                   spriteCounter = 0;
             }
             attackCanceled = false;
             guarding = false;
@@ -424,6 +403,7 @@ public class Player extends Entity {
             }
         }
     }
+
     public void damageMonster(int index,int attack){
         if(index != 999){
             if(gp.monster[gp.currentMap][index].invincible == false){

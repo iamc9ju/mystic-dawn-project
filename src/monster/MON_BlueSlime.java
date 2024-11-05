@@ -25,9 +25,6 @@ public class MON_BlueSlime extends Entity {
         attack = 2;
         defense = 0;
         exp = 20;
-//        projectile = new OBJ_Rock(gp);
-//        collision = false;
-
         solidArea.x = 3;
         solidArea.y = 18;
         solidArea.width = 42;
@@ -72,13 +69,6 @@ public class MON_BlueSlime extends Entity {
             actionLockCounter = 0;
         }
 
-//        int i = new Random().nextInt(100) +1 ;
-//        if(i > 99 && projectile.alive == false && shotAvailableCounter == 30){
-//            projectile.set(worldX,worldY,direction,true,this);
-//            gp.projectileList.add(projectile);
-//            shotAvailableCounter = 0;
-//
-//        }
 
     }
     public void damageReaction(){
