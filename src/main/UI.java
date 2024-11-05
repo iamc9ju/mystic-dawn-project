@@ -18,10 +18,8 @@ public class UI {
     Graphics2D g2;
     Font maruMonica;
     BufferedImage heart_full,heart_half,heart_blank,crystal_full,crystal_blank,coin;
-    public boolean messageOn = false;
     ArrayList<String> message = new ArrayList<>();
     ArrayList<Integer> messageCounter = new ArrayList<>();
-    public boolean gameFinished = false;
     public String currentDialogue = "";
     public int commandNum = 0;
     public int titleScreenState = 0;
@@ -44,14 +42,16 @@ public class UI {
         }
 
         //CREATE HUD OBJECT
+
         Entity heart = new OBJ_Heart(gp);
+        Entity bronzeCoin = new OBJ_Coin_Bronze(gp);
+        Entity crystal = new OBJ_ManaCrystal(gp);
+
         heart_full = heart.image;
         heart_half = heart.image3;
         heart_blank = heart.image2;
-        Entity crystal = new OBJ_ManaCrystal(gp);
         crystal_full = crystal.image;
         crystal_blank = crystal.image2;
-        Entity bronzeCoin = new OBJ_Coin_Bronze(gp);
         coin = bronzeCoin.down1;
     }
 
@@ -228,13 +228,6 @@ public class UI {
                 g2.drawString(">",x-gp.tileSize,y);
             }
 
-//            text = "LOAD GAME";
-//            x = getXforCenteredText(text);
-//            y += gp.tileSize;
-//            g2.drawString(text,x,y);
-//            if(commandNum == 1){
-//                g2.drawString(">",x-gp.tileSize,y);
-//            }
 
             text = "QUIT";
             x = getXforCenteredText(text);

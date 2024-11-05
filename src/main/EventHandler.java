@@ -7,6 +7,7 @@ import java.awt.*;
 public class EventHandler {
     GamePanel gp;
     EventRect eventRect[][][];
+    //Map,col,row;
 
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
@@ -128,19 +129,11 @@ public class EventHandler {
         return hit;
     }
 
-//    public void teleport(int gameState){
-//        gp.gameState = gameState;
-//        gp.ui.currentDialogue = "Teleport !";
-//        gp.player.worldX = gp.tileSize * 37;
-//        gp.player.worldY = gp.tileSize * 10;
-//    }
-
     public void damagePit(int gameState){
         gp.gameState = gameState; //change to dialogue state draw dialogue and player life
         gp.playSoundEffect(6);
         gp.ui.currentDialogue = "You fall in to a pit!";
         gp.player.life -= 1;
-//        eventRect[col][row].eventDone = true;
         canTouchEvent = false;
     }
 
@@ -161,12 +154,6 @@ public class EventHandler {
         tempMap = map;
         tempCol = col;
         tempRow = row;
-
-//        gp.currentMap = map;
-//        gp.player.worldX = gp.tileSize * col;
-//        gp.player.worldY = gp.tileSize * row;
-//        previousEventX = gp.player.worldX;
-//        previousEventY = gp.player.worldY;
         canTouchEvent = false;
         gp.playSoundEffect(13);
     }

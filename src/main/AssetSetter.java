@@ -235,25 +235,6 @@ public class AssetSetter {
 
         gp.interactiveTile[4][i] = new IT_Door(gp,32,36);
 
-        i++;
-
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,27,12);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,28,12);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,29,12);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,30,12);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,31,12);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,32,12);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,33,12);i++;
-//
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,30,20);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,30,21);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,30,22);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,20,20);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,20,21);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,20,22);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,22,24);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,23,24);i++;
-//        gp.interactiveTile[mapNum][i] = new IT_DryTree(gp,24,24);i++;
 
 
     }

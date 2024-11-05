@@ -156,31 +156,7 @@ public class Entity {
 
     public void update(){
         setAction();
-//        checkCollision();
-//
-//            if(knockBack == true) {
-//                if(collisionOn == true) {
-//                    knockBackCounter = 0; //เมื่อชน knock back หยุด
-//                    knockBack = false;
-//                    speed = defaultSpeed;
-//                } else if(collisionOn == false) {
-//                    switch(gp.player.direction) {
-//                        case "up": worldY -= speed; break;
-//                        case "down": worldY += speed; break;
-//                        case "left": worldX -= speed; break;
-//                        case "right": worldX += speed; break;
-//                    }
-//                }
-//                knockBackCounter++;
-//                if(knockBackCounter == 10) {
-//                    knockBackCounter = 0;
-//                    knockBack = false;
-//                    speed = defaultSpeed;
-//                }
-//            }else {
-//
-//
-//            }
+
         // if collision is false, player can move
         if(collisionOn == false) {
             switch(direction) {
@@ -197,7 +173,6 @@ public class Entity {
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkObject(this,false);
         gp.collisionChecker.checkEntity(this,gp.npc);
-//        gp.collisionChecker.checkEntity(this,gp.monster);
         gp.collisionChecker.checkEntity(this,gp.interactiveTile);
         boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
 
@@ -308,7 +283,6 @@ public class Entity {
                 g2.drawImage(image, screenX, screenY, null);
                 changeAlpha(g2,1f);
                 g2.setColor(Color.red);
- //               g2.drawRect(screenX + solidArea.x,screenY+solidArea.y,solidArea.width,solidArea.height);
 
         }
     }

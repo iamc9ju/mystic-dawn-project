@@ -108,13 +108,8 @@ public class GamePanel extends JPanel implements Runnable{
             assetSetter.setInteractiveTile();
         }
     }
-//    public void restart(){
-//        player.setDefaultPositions();
-//        player.restoreLifeAndMana();
-//        assetSetter.setNPC();
-//        assetSetter.setMonster();
-//
-//    }
+
+
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start(); // call run method
